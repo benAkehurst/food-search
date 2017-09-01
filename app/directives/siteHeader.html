@@ -1,28 +1,19 @@
-<nav class="navbar navbar-inverse navbar-static-top" role="navigation">    
-  
-  <div class="container-fluid">
-      
-    <div class="navbar-header">
-        
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar" ng-click="navbarCollapsed = !navbarCollapsed">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
-      </button>
-        
-      <a class="navbar-brand" href="#!/routes">Munch</a>
-    
+<div layout="column" layout-fill>
+  <md-toolbar>
+
+    <div class="md-toolbar-tools">
+      <h2 md-truncate flex><a ng-href="#!/routes">Munch</a></h2>
+
+      <md-button>
+        <a ng-href="#!/routes">routes</a>
+      </md-button>
+      <md-button>
+        <a ng-href="#!/explore">explore</a>
+      </md-button>
+      <md-button>
+        <a ng-href="#!/profile">profile</a>
+      </md-button>
     </div>
 
-    <div class="collapse navbar-collapse" id="myNavbar" collapse="navbarCollapsed">
-      
-      <ul class="nav navbar-nav navbar-right">
-        <li><a ng-href="#!/routes">routes</a></li>
-        <li><a ng-href="#!/explore">explore</a></li>
-        <li><a ng-href="#!/profile">profile</a></li>
-      </ul>
-
-    </div>
-    
-  </div>
-</nav>
+  </md-toolbar>
+</div>
