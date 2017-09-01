@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "dependencies": {
+    "angular-auth0": "^2.0.0",
     "auth0-js": "^8.9.3",
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
