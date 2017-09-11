@@ -1,17 +1,29 @@
 <link rel="stylesheet" type="text/css" href="app/routesModule/routesView.css">
-
 <h1>Routes View</h1>
-
 <div class="container-fluid">
-	<div class="row">
-		<div class="col-md-4" style="border: 1px solid black">
-			Grid of Food Styles
-		</div>
-		<div class="col-md-4" style="border: 1px solid black">
-			Mixes
-		</div>
-		<div class="col-md-4" style="border: 1px solid black">
-			Map of Route
-		</div>
-	</div>
+    <div class="row">
+        <div class="col-md-4" style="border: 1px solid black">
+            <md-card ng-repeat="place in locationResults.results | limitTo: 9">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">{{place.name}}</span>
+                        <span class="md-subhead">{{place.vicinity}}</span>
+                    </md-card-title-text>
+                    <md-card-title-media>
+                        <div class="md-media-sm card-media"></div>
+                    </md-card-title-media>
+                </md-card-title>
+                <md-card-actions layout="row" layout-align="start center">
+                    <md-button>Action 1</md-button>
+                    <md-button>Action 2</md-button>
+                </md-card-actions>
+            </md-card>
+        </div>
+        <div class="col-md-4" style="border: 1px solid black">
+            Mixes
+        </div>
+        <div class="col-md-4" style="border: 1px solid black">
+            Map of Route
+        </div>
+    </div>
 </div>
