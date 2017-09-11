@@ -5,7 +5,7 @@
     var routesModule = angular.module("routesModule", []);
 
     routesModule.controller("RoutesController", function($q, $http, $scope, $rootScope, $location) {
-
+        
         var userLoc = function(pos) {
             var latitude = pos.latitude;
             var longitude = pos.longitude;
