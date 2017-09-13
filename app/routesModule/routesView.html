@@ -6,30 +6,31 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-5" style="border: 1px solid black">
-            <md-card>
+        <div class="col-md-5" class="choices_div">
+            <md-card ng-repeat="item in items | limitTo:3" class="choice_card">
                 <md-card-actions layout="row" layout-align="start center">
-                    <md-card-title>
+                    <md-card-title class="border">
                         <md-card-title-text>
-                            <h2>Title</h2>
-                            <h3>Subtitle</h3>
+                            <h4>{{item.name}}</h4>
+                            <h5>{{item.rating}}</h5>
                         </md-card-title-text>
                     </md-card-title>
                     <div><i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i></div>
-                    <md-card-title>
+                    <md-card-actions layout="row" layout-align="start center">
+                    <md-card-title class="border">
                         <md-card-title-text>
-                            <h2>Title 2</h2>
-                            <h3>Subtitle 2</h3>
+                            <h4>{{item.name}}</h4>
+                            <h5>{{item.rating}}</h5>
                         </md-card-title-text>
                     </md-card-title>
                     <div><i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i></div>
-                    <md-card-title>
+                    <md-card-actions layout="row" layout-align="start center">
+                    <md-card-title class="border">
                         <md-card-title-text>
-                            <h2>Title 3</h2>
-                            <h3>Subtitle 3</h3>
+                            <h4>{{item.name}}</h4>
+                            <h5>{{item.rating}}</h5>
                         </md-card-title-text>
                     </md-card-title>
-                </md-card-actions>
             </md-card>
         </div>
         <div class="col-md-7" style="border: 1px solid black">
