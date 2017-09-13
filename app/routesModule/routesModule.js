@@ -61,9 +61,21 @@
                 url: serachTerm
             }).then(function success(response) {
                 console.log(response.data);
+                $scope.items = response.data.results;
             }, function error(response) {
                 console.log(response.statusText);
             });
+        }
+
+        var results = function(response){
+            //make a blank array
+            //loop though and make response.results go in each cell
+            // randomise order
+            // if statement to loop though places and check if somewhere is open
+            // if yes, push to new array
+            // randomise new array 
+            //loop though new array and make an object first each 3 results and push to new array
+            // put array on scope
         }
 
         getUserLocation();
