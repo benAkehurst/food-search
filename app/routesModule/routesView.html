@@ -1,28 +1,38 @@
 <link rel="stylesheet" type="text/css" href="app/routesModule/routesView.css">
-<h1>Routes View</h1>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-4" style="border: 1px solid black">
-            <md-card ng-repeat="place in locationResults.results | limitTo: 9">
-                <md-card-title>
-                    <md-card-title-text>
-                        <span class="md-headline">{{place.name}}</span>
-                        <span class="md-subhead">{{place.vicinity}}</span>
-                    </md-card-title-text>
-                    <md-card-title-media>
-                        <div class="md-media-sm card-media"><img src="https://img.grouponcdn.com/deal/jaSuZT7oxkai5XziRxWW/V3-4272x2823/v1/c700x420.jpg" alt="" style="width:90px; height: 100px"></div>
-                    </md-card-title-media>
-                </md-card-title>
+        <div class="title_row">
+            <h1>Pick a route in {{city}}!</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-5" style="border: 1px solid black">
+            <md-card>
                 <md-card-actions layout="row" layout-align="start center">
-                    <md-button>Action 1</md-button>
-                    <md-button>Action 2</md-button>
+                    <md-card-title>
+                        <md-card-title-text>
+                            <h2>Title</h2>
+                            <h3>Subtitle</h3>
+                        </md-card-title-text>
+                    </md-card-title>
+                    <div><i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i></div>
+                    <md-card-title>
+                        <md-card-title-text>
+                            <h2>Title 2</h2>
+                            <h3>Subtitle 2</h3>
+                        </md-card-title-text>
+                    </md-card-title>
+                    <div><i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i></div>
+                    <md-card-title>
+                        <md-card-title-text>
+                            <h2>Title 3</h2>
+                            <h3>Subtitle 3</h3>
+                        </md-card-title-text>
+                    </md-card-title>
                 </md-card-actions>
             </md-card>
         </div>
-        <div class="col-md-4" style="border: 1px solid black">
-            Mixes
-        </div>
-        <div class="col-md-4" style="border: 1px solid black">
+        <div class="col-md-7" style="border: 1px solid black">
             Map of Route
         </div>
     </div>
