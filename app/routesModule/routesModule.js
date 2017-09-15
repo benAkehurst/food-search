@@ -33,6 +33,7 @@
                         accuracy: position.coords.accuracy
                     };
                     userLoc(pos);
+                    initMap(pos);
                 });
         };
 
@@ -44,13 +45,11 @@
                 longitude: longitude
             };
             var time = tellTime();
-            if (time = 'day'){
+            if (time = 'day') {
                 daySearch(locObj);
-            }
-            else {
+            } else {
                 nightSerch(locObj);
             }
-            
         };
 
         var daySearch = function(locObj) {
@@ -95,7 +94,57 @@
 
         $scope.makeMap = function(a, b, c) {
             console.log({ a, b, c });
+            var base = "https://maps.googleapis.com/maps/api/directions/json?"
+            var startEnd = "origin=" + a.vicinity + "&destination=" + c.vicinity;
+            var stop = "&waypoints=" + b.vicinity;
+            var type = "&travelMode=walking"
+            var key = "&key=AIzaSyDBYChgRS2F1yalWlTNZ6LjaWNbJWQ11ts";
+            var fullSearch = base + startEnd + stop + type + key;
+            console.log(fullSearch);
         }
+
+        // // First Initiate your map. Tie it to some ID in the HTML eg. 'MyMapID'
+        var initMap = function(pos) {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 15,
+                center: new google.maps.LatLng(pos.latitude, pos.longitude)
+            });
+        }
+        // // Create a new directionsService object.
+        // var directionsService = new google.maps.DirectionsService;
+        // directionsService.route({
+        //     origin: origin.latitude + ',' + origin.longitude,
+        //     destination: destination.latitude + ',' + destination.longitude,
+        //     travelMode: 'DRIVING',
+        // }, function(response, status) {
+        //     if (status === google.maps.DirectionsStatus.OK) {
+        //         var directionsDisplay = new google.maps.DirectionsRenderer({
+        //             suppressMarkers: true,
+        //             map: map,
+        //             directions: response,
+        //             draggable: false,
+        //             suppressPolylines: true,
+        //             // IF YOU SET `suppressPolylines` TO FALSE, THE LINE WILL BE
+        //             // AUTOMATICALLY DRAWN FOR YOU.
+        //         });
+
+        //         //             // IF YOU WISH TO APPLY USER ACTIONS TO YOUR LINE YOU NEED TO CREATE A 
+        //         //             // `polyLine` OBJECT BY LOOPING THROUGH THE RESPONSE ROUTES AND CREATING A 
+        //         //             // LIST
+        //         pathPoints = response.routes[0].overview_path.map(function(location) {
+        //             return { lat: location.lat(), lng: location.lng() };
+        //         });
+
+        //         var assumedPath = new google.maps.Polyline({
+        //             path: pathPoints, //APPLY LIST TO PATH
+        //             geodesic: true,
+        //             strokeColor: '#708090',
+        //             strokeOpacity: 0.7,
+        //             strokeWeight: 2.5
+        //         });
+
+        //     }
+        // });
 
         getUserLocation();
         userCity();
@@ -119,7 +168,7 @@
         var shuffledArray = shuffle(resultsArray);
         var openNowLocations = [];
         for (var i = 0; i < shuffledArray.length; i++) {
-            if (shuffledArray[i].opening_hours == undefined) {} else if (shuffledArray[i].opening_hours.open_now = true) {
+            if (shuffledArray[i].opening_hours == undefined) {} else if (shuffledArray[i].opening_hours.open_now === true && shuffledArray[i].rating > 3) {
                 openNowLocations.push(shuffledArray[i]);
             }
         }
