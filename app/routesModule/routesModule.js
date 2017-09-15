@@ -73,6 +73,10 @@
             shuffle(shuffleChoice[0]);
         }
 
+        $scope.makeMap = function(a,b,c){
+            console.log({a,b,c});
+        }
+
         getUserLocation();
         userCity();
 
