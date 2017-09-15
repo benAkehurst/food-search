@@ -3,12 +3,13 @@
     'use strict';
 
     var appModule = angular.module("appModule", ["ngRoute",
-        "ngMaterial",
-        "loginModule",
-        "routesModule",
-        "exploreModule",
-        "profileModule"
-    ]);
+            "ngMaterial",
+            "loginModule",
+            "routesModule",
+            "exploreModule",
+            "profileModule"
+        ]);
+
 
     appModule.config(function($routeProvider) {
 
@@ -64,6 +65,6 @@
             $mdThemingProvider.theme('default')
                 .primaryPalette('blue')
                 .accentPalette('orange');
-        });
 
+        });
 })();

@@ -7,33 +7,67 @@
     </div>
     <div class="row">
         <div class="col-md-5" class="choices_div">
-            <md-card ng-repeat="item in items | limitTo:3" class="choice_card">
+            <md-card class="choice_card">
                 <md-card-actions layout="row" layout-align="start center">
                     <md-card-title class="border">
                         <md-card-title-text>
-                            <h4>{{item.name}}</h4>
-                            <h5>{{item.rating}}</h5>
+                            <h4>{{openLocations[0].name}}</h4>
                         </md-card-title-text>
                     </md-card-title>
                     <div><i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i></div>
-                    <md-card-actions layout="row" layout-align="start center">
                     <md-card-title class="border">
                         <md-card-title-text>
-                            <h4>{{item.name}}</h4>
-                            <h5>{{item.rating}}</h5>
+                            <h4>{{openLocations[1].name}}</h4>
                         </md-card-title-text>
                     </md-card-title>
                     <div><i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i></div>
-                    <md-card-actions layout="row" layout-align="start center">
                     <md-card-title class="border">
                         <md-card-title-text>
-                            <h4>{{item.name}}</h4>
-                            <h5>{{item.rating}}</h5>
+                            <h4>{{openLocations[2].name}}</h4>
                         </md-card-title-text>
                     </md-card-title>
             </md-card>
-
-            <md-button class="md-raised">Shuffle Choices</md-button>
+            <md-card class="choice_card">
+                <md-card-actions layout="row" layout-align="start center">
+                    <md-card-title class="border">
+                        <md-card-title-text>
+                            <h4>{{openLocations[3].name}}</h4>
+                        </md-card-title-text>
+                    </md-card-title>
+                    <div><i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i></div>
+                    <md-card-title class="border">
+                        <md-card-title-text>
+                            <h4>{{openLocations[4].name}}</h4>
+                        </md-card-title-text>
+                    </md-card-title>
+                    <div><i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i></div>
+                    <md-card-title class="border">
+                        <md-card-title-text>
+                            <h4>{{openLocations[5].name}}</h4>
+                        </md-card-title-text>
+                    </md-card-title>
+            </md-card>
+            <md-card class="choice_card">
+                <md-card-actions layout="row" layout-align="start center">
+                    <md-card-title class="border">
+                        <md-card-title-text>
+                            <h4>{{openLocations[6].name}}</h4>
+                        </md-card-title-text>
+                    </md-card-title>
+                    <div><i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i></div>
+                    <md-card-title class="border">
+                        <md-card-title-text>
+                            <h4>{{openLocations[7].name}}</h4>
+                        </md-card-title-text>
+                    </md-card-title>
+                    <div><i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i></div>
+                    <md-card-title class="border">
+                        <md-card-title-text>
+                            <h4>{{openLocations[8].name}}</h4>
+                        </md-card-title-text>
+                    </md-card-title>
+            </md-card>
+            <md-button class="md-raised" ng-click="shuffleData()">Shuffle Choices</md-button>
         </div>
         <div class="col-md-7" style="border: 1px solid black">
             Map of Route
