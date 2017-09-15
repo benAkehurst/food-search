@@ -45,7 +45,7 @@
                 longitude: longitude
             };
             var time = tellTime();
-            if (time = 'day') {
+            if (time === 'day') {
                 daySearch(locObj);
             } else {
                 nightSerch(locObj);
@@ -56,7 +56,7 @@
             var base = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
             // var longLat = locObj.latitude + "," + locObj.longitude;
             var longLat = "32.079542,34.779720";
-            var radius = "&radius=1500";
+            var radius = "&radius=2000";
             var type = "&type=restaurant";
             var key = "&key=AIzaSyD32rWtceO4-3aY02cxmsYwihYuNEWVIOw";
             var serachTerm = base + longLat + radius + type + key;
@@ -64,11 +64,11 @@
         };
 
         var nightSerch = function(locObj) {
+            console.log("night");
             var base = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
             // var longLat = locObj.latitude + "," + locObj.longitude;
             var longLat = "32.079542,34.779720";
-            // var radius = "&radius=1500";
-            // var type = "&type=restaurant";
+            var radius = "&radius=2000";
             var type = "&type=bar";
             var key = "&key=AIzaSyD32rWtceO4-3aY02cxmsYwihYuNEWVIOw";
             var serachTerm = base + longLat + radius + type + key;
@@ -81,6 +81,7 @@
                 url: serachTerm
             }).then(function success(response) {
                 var options = results(response.data.results);
+                console.log(options);
                 $scope.openLocations = options;
                 shuffleChoice.push(options);
             }, function error(response) {
@@ -92,59 +93,26 @@
             shuffle(shuffleChoice[0]);
         }
 
-        $scope.makeMap = function(a, b, c) {
-            console.log({ a, b, c });
+        $scope.makeMap = function(loc1, loc2, loc3) {
+            // console.log(loc1, loc2, loc3);
+            var locObj = {loc1,loc2,loc3};
             var base = "https://maps.googleapis.com/maps/api/directions/json?"
-            var startEnd = "origin=" + a.vicinity + "&destination=" + c.vicinity;
-            var stop = "&waypoints=" + b.vicinity;
+            var startEnd = "origin=" + loc1.vicinity + "&destination=" + loc3.vicinity;
+            var stop = "&waypoints=" + loc2.vicinity;
             var type = "&travelMode=walking"
             var key = "&key=AIzaSyDBYChgRS2F1yalWlTNZ6LjaWNbJWQ11ts";
             var fullSearch = base + startEnd + stop + type + key;
-            console.log(fullSearch);
+            // console.log(fullSearch);
+
         }
 
-        // // First Initiate your map. Tie it to some ID in the HTML eg. 'MyMapID'
+        //First Initiate your map. Tie it to some ID in the HTML eg. 'MyMapID'
         var initMap = function(pos) {
             var map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 15,
                 center: new google.maps.LatLng(pos.latitude, pos.longitude)
             });
         }
-        // // Create a new directionsService object.
-        // var directionsService = new google.maps.DirectionsService;
-        // directionsService.route({
-        //     origin: origin.latitude + ',' + origin.longitude,
-        //     destination: destination.latitude + ',' + destination.longitude,
-        //     travelMode: 'DRIVING',
-        // }, function(response, status) {
-        //     if (status === google.maps.DirectionsStatus.OK) {
-        //         var directionsDisplay = new google.maps.DirectionsRenderer({
-        //             suppressMarkers: true,
-        //             map: map,
-        //             directions: response,
-        //             draggable: false,
-        //             suppressPolylines: true,
-        //             // IF YOU SET `suppressPolylines` TO FALSE, THE LINE WILL BE
-        //             // AUTOMATICALLY DRAWN FOR YOU.
-        //         });
-
-        //         //             // IF YOU WISH TO APPLY USER ACTIONS TO YOUR LINE YOU NEED TO CREATE A 
-        //         //             // `polyLine` OBJECT BY LOOPING THROUGH THE RESPONSE ROUTES AND CREATING A 
-        //         //             // LIST
-        //         pathPoints = response.routes[0].overview_path.map(function(location) {
-        //             return { lat: location.lat(), lng: location.lng() };
-        //         });
-
-        //         var assumedPath = new google.maps.Polyline({
-        //             path: pathPoints, //APPLY LIST TO PATH
-        //             geodesic: true,
-        //             strokeColor: '#708090',
-        //             strokeOpacity: 0.7,
-        //             strokeWeight: 2.5
-        //         });
-
-        //     }
-        // });
 
         getUserLocation();
         userCity();
@@ -168,7 +136,7 @@
         var shuffledArray = shuffle(resultsArray);
         var openNowLocations = [];
         for (var i = 0; i < shuffledArray.length; i++) {
-            if (shuffledArray[i].opening_hours == undefined) {} else if (shuffledArray[i].opening_hours.open_now === true && shuffledArray[i].rating > 3) {
+            if (shuffledArray[i].opening_hours == undefined) {} else if (shuffledArray[i].opening_hours.open_now === true && shuffledArray[i].rating >= 4) {
                 openNowLocations.push(shuffledArray[i]);
             }
         }
