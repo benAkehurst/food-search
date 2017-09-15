@@ -42,15 +42,35 @@
             var locObj = {
                 latitude: latitude,
                 longitude: longitude
+            };
+            var time = tellTime();
+            if (time = 'day'){
+                daySearch(locObj);
             }
-            makeSearch(locObj);
+            else {
+                nightSerch(locObj);
+            }
+            
         };
 
-        var makeSearch = function(locObj) {
+        var daySearch = function(locObj) {
             var base = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
-            var longLat = locObj.latitude + "," + locObj.longitude;
-            var radius = "&radius=2500"
+            // var longLat = locObj.latitude + "," + locObj.longitude;
+            var longLat = "32.079542,34.779720";
+            var radius = "&radius=1500";
             var type = "&type=restaurant";
+            var key = "&key=AIzaSyD32rWtceO4-3aY02cxmsYwihYuNEWVIOw";
+            var serachTerm = base + longLat + radius + type + key;
+            places(serachTerm);
+        };
+
+        var nightSerch = function(locObj) {
+            var base = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
+            // var longLat = locObj.latitude + "," + locObj.longitude;
+            var longLat = "32.079542,34.779720";
+            // var radius = "&radius=1500";
+            // var type = "&type=restaurant";
+            var type = "&type=bar";
             var key = "&key=AIzaSyD32rWtceO4-3aY02cxmsYwihYuNEWVIOw";
             var serachTerm = base + longLat + radius + type + key;
             places(serachTerm);
@@ -73,14 +93,23 @@
             shuffle(shuffleChoice[0]);
         }
 
-        $scope.makeMap = function(a,b,c){
-            console.log({a,b,c});
+        $scope.makeMap = function(a, b, c) {
+            console.log({ a, b, c });
         }
 
         getUserLocation();
         userCity();
 
     });
+
+    function tellTime() {
+        var today = new Date().getHours();
+        if (today >= 6 && today <= 18) {
+            return 'day';
+        } else {
+            return 'night';
+        }
+    }
 
     function results(response) {
         var resultsArray = [];
