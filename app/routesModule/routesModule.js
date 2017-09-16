@@ -19,6 +19,7 @@
 
         var shuffleChoice = [];
         var userLocation = {};
+        $scope.loadingIcon = false;
 
         var getUserLocation = function() {
             navigator.geolocation.getCurrentPosition(
@@ -58,15 +59,15 @@
             var base = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
             // var longLat = locObj.latitude + "," + locObj.longitude;
             var longLat = "32.079542,34.779720";
-            var radius = "&radius=2000";
-            var type = "&type=restaurant";
+            var radius = "&radius=5000";
+            var type = "&type=restaurant&type=bar&type=cafe;";
             var key = "&key=AIzaSyD32rWtceO4-3aY02cxmsYwihYuNEWVIOw";
             var serachTerm = base + longLat + radius + type + key;
             places(serachTerm);
         };
 
         var nightSerch = function(locObj) {
-            console.log("night");
+            // console.log("night");
             var base = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
             // var longLat = locObj.latitude + "," + locObj.longitude;
             var longLat = "32.079542,34.779720";
@@ -82,8 +83,9 @@
                 method: "GET",
                 url: serachTerm
             }).then(function success(response) {
+                $scope.loadingIcon = true;
                 var options = results(response.data.results);
-                // console.log(options);
+                console.log(options);
                 $scope.openLocations = options;
                 shuffleChoice.push(options);
             }, function error(response) {
@@ -93,7 +95,6 @@
 
         $scope.shuffleData = function() {
             shuffle(shuffleChoice[0]);
-            makeMap(loc1, loc2, loc3);
         }
 
         $scope.makeMap = function(loc1, loc2, loc3) {

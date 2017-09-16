@@ -6,6 +6,9 @@
         </div>
     </div>
     <div class="row">
+    <div layout="row" layout-sm="column" layout-align="space-around" ng-hide="loadingIcon">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
         <div class="col-md-5" class="choices_div">
             <md-card class="choice_card" ng-click="makeMap(openLocations[0],openLocations[1],openLocations[2])" ng-show="openLocations != null">
                 <md-card-actions layout="row" layout-align="start center">
