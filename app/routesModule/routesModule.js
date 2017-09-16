@@ -91,18 +91,18 @@
             });
         };
 
-        var getDirections = function(dirSerach) {
-            $http({
-                method: "GET",
-                url: dirSerach
-            }).then(function success(response) {
-                console.log(response.data);
-                console.log(userLocation);
-                displayDirections(response.data, userLocation);
-            }, function error(response) {
-                console.log(response.statusText);
-            });
-        }
+        // var getDirections = function(dirSerach) {
+        //     $http({
+        //         method: "GET",
+        //         url: dirSerach
+        //     }).then(function success(response) {
+        //         console.log(response.data);
+        //         console.log(userLocation);
+        //         displayDirections(response.data, userLocation);
+        //     }, function error(response) {
+        //         console.log(response.statusText);
+        //     });
+        // }
 
         $scope.shuffleData = function() {
             shuffle(shuffleChoice[0]);
@@ -112,14 +112,14 @@
         $scope.makeMap = function(loc1, loc2, loc3) {
             // console.log(loc1, loc2, loc3);
             var locObj = { loc1, loc2, loc3 };
-            var base = "https://maps.googleapis.com/maps/api/directions/json?"
-            var startEnd = "origin=" + loc1.vicinity + "&destination=" + loc3.vicinity;
-            var stop = "&waypoints=" + loc2.vicinity;
-            var type = "&mode=walking"
-            var key = "&key=AIzaSyDBYChgRS2F1yalWlTNZ6LjaWNbJWQ11ts";
-            var fullSearch = base + startEnd + stop + type + key;
-            console.log(fullSearch);
-            getDirections(fullSearch, locObj);
+            // var base = "https://maps.googleapis.com/maps/api/directions/json?"
+            // var startEnd = "origin=" + loc1.vicinity + "&destination=" + loc3.vicinity;
+            // var stop = "&waypoints=" + loc2.vicinity;
+            // var type = "&mode=walking"
+            // var key = "&key=AIzaSyDBYChgRS2F1yalWlTNZ6LjaWNbJWQ11ts";
+            // var fullSearch = base + startEnd + stop + type + key;
+            // console.log(fullSearch);
+            displayDirections(locObj);
         }
 
         getUserLocation();
@@ -134,20 +134,21 @@
         });
     }
 
-    function displayDirections(response, userLocation) {
-        console.log(response, userLocation);
+    function displayDirections(locObj) {
+        console.log(locObj);
         var directionsDisplay;
         var directionsService = new google.maps.DirectionsService();
         var map;
-        var haight = new google.maps.LatLng(37.7699298, -122.4469157);
-        var oceanBeach = new google.maps.LatLng(37.7683909618184, -122.51089453697205);
-        initialize();
+        var loc1 = new google.maps.LatLng(locObj.loc1.geometry.location.lat, locObj.loc1.geometry.location.lng);
+        var loc2 = new google.maps.LatLng(locObj.loc2.geometry.location.lat, locObj.loc2.geometry.location.lng);
+        var loc3 = new google.maps.LatLng(locObj.loc3.geometry.location.lat, locObj.loc3.geometry.location.lng);
+        initialize(locObj);
 
-        function initialize() {
+        function initialize(locObj) {
             directionsDisplay = new google.maps.DirectionsRenderer();
             var mapOptions = {
-                zoom: 14,
-                center: haight
+                zoom: 3,
+                center: new google.maps.LatLng(locObj.loc1.geometry.location.lat, locObj.loc1.geometry.location.lng)
             }
             map = new google.maps.Map(document.getElementById('map'), mapOptions);
             directionsDisplay.setMap(map);
@@ -157,14 +158,15 @@
         function calcRoute() {
             var selectedMode = 'WALKING';
             var request = {
-                origin: haight,
-                destination: oceanBeach,
-                // Note that Javascript allows us to access the constant
-                // using square brackets and a string value as its
-                // "property."
+                origin: loc1,
+                destination: loc3,
+                waypoints: [{
+                    location: loc2,
+                    stopover: true
+                }],
+                optimizeWaypoints: true,
                 travelMode: google.maps.TravelMode[selectedMode]
             };
-            console.log("request: " + request);
             directionsService.route(request, function(response, status) {
                 if (status == 'OK') {
                     console.log(response);
