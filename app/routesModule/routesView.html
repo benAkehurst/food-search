@@ -1,14 +1,14 @@
 <link rel="stylesheet" type="text/css" href="app/routesModule/routesView.css">
 <div class="container-fluid">
     <div class="row">
-        <div class="title_row">
+        <div class="title_row" ng-show="loadingIcon">
             <h1>Pick a route in {{city}}!</h1>
         </div>
     </div>
-    <div class="row">
-    <div layout="row" layout-sm="column" layout-align="space-around" ng-hide="loadingIcon">
-      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    <div layout="row" layout-sm="column" layout-align="space-around" ng-hide="loadingIcon" class="loading_icon">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
     </div>
+    <div class="row" ng-show="loadingIcon">
         <div class="col-md-5" class="choices_div">
             <md-card class="choice_card" ng-click="makeMap(openLocations[0],openLocations[1],openLocations[2])" ng-show="openLocations != null">
                 <md-card-actions layout="row" layout-align="start center">
@@ -70,10 +70,15 @@
                         </md-card-title-text>
                     </md-card-title>
             </md-card>
-            <md-button class="md-raised" ng-click="shuffleData()">Shuffle Choices</md-button>
+            <div class="suffle_routes_container">
+                <md-button class="md-raised shuffle_choices_button" ng-click="shuffleData()">Shuffle Choices</md-button>
+            </div>
         </div>
         <div class="col-md-7" class="border map_div">
             <div id="map"></div>
+            <div class="save_route_container">
+                <md-button class="md-raised save_route_button" ng-click="">Save This Route</md-button>
+            </div>
         </div>
     </div>
 </div>

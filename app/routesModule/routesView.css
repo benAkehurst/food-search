@@ -6,18 +6,52 @@ h1 {
     border: 1px solid black;
 }
 
+.loading_icon{
+	margin-top: 25px;
+}
+
 .choices_div {
     text-align: center;
     font-family: 'Roboto Mono', monospace;
+}
+
+.suffle_routes_container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.shuffle_choices_button {
+    order: 0;
+    flex: 0 1 auto; 
+    align-self: center;
 }
 
 .choice_card {
     margin: 0 0 20px 0;
 }
 
-.map_div{
-	width: 100%;
-	height: 100%;
+.map_div {
+    width: 100%;
+    height: 100%;
+}
+
+.save_route_container{
+	display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.save_route_button{
+	order: 0;
+    flex: 0 1 auto; 
+    align-self: center;
 }
 
 #map {
