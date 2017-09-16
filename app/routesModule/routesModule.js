@@ -18,6 +18,7 @@
         };
 
         var shuffleChoice = [];
+        var userLocation = {};
 
         var getUserLocation = function() {
             navigator.geolocation.getCurrentPosition(
@@ -44,6 +45,7 @@
                 latitude: latitude,
                 longitude: longitude
             };
+            userLocation = locObj;
             var time = tellTime();
             if (time === 'day') {
                 daySearch(locObj);
@@ -89,35 +91,88 @@
             });
         };
 
+        var getDirections = function(dirSerach) {
+            $http({
+                method: "GET",
+                url: dirSerach
+            }).then(function success(response) {
+                console.log(response.data);
+                console.log(userLocation);
+                displayDirections(response.data, userLocation);
+            }, function error(response) {
+                console.log(response.statusText);
+            });
+        }
+
         $scope.shuffleData = function() {
             shuffle(shuffleChoice[0]);
+            makeMap(loc1, loc2, loc3);
         }
 
         $scope.makeMap = function(loc1, loc2, loc3) {
             // console.log(loc1, loc2, loc3);
-            var locObj = {loc1,loc2,loc3};
+            var locObj = { loc1, loc2, loc3 };
             var base = "https://maps.googleapis.com/maps/api/directions/json?"
             var startEnd = "origin=" + loc1.vicinity + "&destination=" + loc3.vicinity;
             var stop = "&waypoints=" + loc2.vicinity;
-            var type = "&travelMode=walking"
+            var type = "&mode=walking"
             var key = "&key=AIzaSyDBYChgRS2F1yalWlTNZ6LjaWNbJWQ11ts";
             var fullSearch = base + startEnd + stop + type + key;
-            // console.log(fullSearch);
-
-        }
-
-        //First Initiate your map. Tie it to some ID in the HTML eg. 'MyMapID'
-        var initMap = function(pos) {
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 15,
-                center: new google.maps.LatLng(pos.latitude, pos.longitude)
-            });
+            console.log(fullSearch);
+            getDirections(fullSearch, locObj);
         }
 
         getUserLocation();
         userCity();
 
     });
+
+    function initMap(pos) {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: new google.maps.LatLng(pos.latitude, pos.longitude)
+        });
+    }
+
+    function displayDirections(response, userLocation) {
+        console.log(response, userLocation);
+        var directionsDisplay;
+        var directionsService = new google.maps.DirectionsService();
+        var map;
+        var haight = new google.maps.LatLng(37.7699298, -122.4469157);
+        var oceanBeach = new google.maps.LatLng(37.7683909618184, -122.51089453697205);
+        initialize();
+
+        function initialize() {
+            directionsDisplay = new google.maps.DirectionsRenderer();
+            var mapOptions = {
+                zoom: 14,
+                center: haight
+            }
+            map = new google.maps.Map(document.getElementById('map'), mapOptions);
+            directionsDisplay.setMap(map);
+            calcRoute();
+        }
+
+        function calcRoute() {
+            var selectedMode = 'WALKING';
+            var request = {
+                origin: haight,
+                destination: oceanBeach,
+                // Note that Javascript allows us to access the constant
+                // using square brackets and a string value as its
+                // "property."
+                travelMode: google.maps.TravelMode[selectedMode]
+            };
+            console.log("request: " + request);
+            directionsService.route(request, function(response, status) {
+                if (status == 'OK') {
+                    console.log(response);
+                    directionsDisplay.setDirections(response);
+                }
+            });
+        }
+    }
 
     function tellTime() {
         var today = new Date().getHours();
@@ -136,7 +191,7 @@
         var shuffledArray = shuffle(resultsArray);
         var openNowLocations = [];
         for (var i = 0; i < shuffledArray.length; i++) {
-            if (shuffledArray[i].opening_hours == undefined) {} else if (shuffledArray[i].opening_hours.open_now === true && shuffledArray[i].rating >= 4) {
+            if (shuffledArray[i].opening_hours == undefined) {} else if (shuffledArray[i].opening_hours.open_now === true && shuffledArray[i].rating >= 3.5) {
                 openNowLocations.push(shuffledArray[i]);
             }
         }
