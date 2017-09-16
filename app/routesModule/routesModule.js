@@ -20,6 +20,7 @@
         var shuffleChoice = [];
         var userLocation = {};
         $scope.loadingIcon = false;
+        $scope.hideRoutes = false;
 
         var getUserLocation = function() {
             navigator.geolocation.getCurrentPosition(
@@ -59,7 +60,7 @@
             var base = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
             // var longLat = locObj.latitude + "," + locObj.longitude;
             var longLat = "32.079542,34.779720";
-            var radius = "&radius=5000";
+            var radius = "&radius=3000";
             var type = "&type=restaurant&type=bar&type=cafe;";
             var key = "&key=AIzaSyD32rWtceO4-3aY02cxmsYwihYuNEWVIOw";
             var serachTerm = base + longLat + radius + type + key;
@@ -71,7 +72,7 @@
             var base = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
             // var longLat = locObj.latitude + "," + locObj.longitude;
             var longLat = "32.079542,34.779720";
-            var radius = "&radius=2000";
+            var radius = "&radius=3000";
             var type = "&type=bar";
             var key = "&key=AIzaSyD32rWtceO4-3aY02cxmsYwihYuNEWVIOw";
             var serachTerm = base + longLat + radius + type + key;
@@ -85,7 +86,10 @@
             }).then(function success(response) {
                 $scope.loadingIcon = true;
                 var options = results(response.data.results);
-                console.log(options);
+                if(options.length <= 3){
+                    $scope.hideRoutes = true;
+                }
+                // console.log(options);
                 $scope.openLocations = options;
                 shuffleChoice.push(options);
             }, function error(response) {

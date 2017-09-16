@@ -8,7 +8,7 @@
     <div layout="row" layout-sm="column" layout-align="space-around" ng-hide="loadingIcon" class="loading_icon">
         <md-progress-circular md-mode="indeterminate"></md-progress-circular>
     </div>
-    <div class="row" ng-show="loadingIcon">
+    <div class="row" ng-show="loadingIcon" ng-hide="hideRoutes">
         <div class="col-md-5" class="choices_div">
             <md-card class="choice_card" ng-click="makeMap(openLocations[0],openLocations[1],openLocations[2])" ng-show="openLocations != null">
                 <md-card-actions layout="row" layout-align="start center">
@@ -80,5 +80,22 @@
                 <md-button class="md-raised save_route_button" ng-click="">Save This Route</md-button>
             </div>
         </div>
+    </div>
+    <div ng-show="hideRoutes">
+        <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">No Current Routes Avaliable</span>
+                    <span class="md-subhead">Large</span>
+                </md-card-title-text>
+                <md-card-title-media>
+                    <div class="md-media-lg card-media"></div>
+                </md-card-title-media>
+            </md-card-title>
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button>Action 1</md-button>
+                <md-button>Action 2</md-button>
+            </md-card-actions>
+        </md-card>
     </div>
 </div>

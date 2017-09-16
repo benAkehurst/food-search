@@ -6,8 +6,8 @@ h1 {
     border: 1px solid black;
 }
 
-.loading_icon{
-	margin-top: 25px;
+.loading_icon {
+    margin-top: 25px;
 }
 
 .choices_div {
@@ -26,12 +26,13 @@ h1 {
 
 .shuffle_choices_button {
     order: 0;
-    flex: 0 1 auto; 
+    flex: 0 1 auto;
     align-self: center;
 }
 
 .choice_card {
     margin: 0 0 20px 0;
+    outline: 0 none;
 }
 
 .map_div {
@@ -39,8 +40,8 @@ h1 {
     height: 100%;
 }
 
-.save_route_container{
-	display: flex;
+.save_route_container {
+    display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: center;
@@ -48,9 +49,9 @@ h1 {
     align-items: center;
 }
 
-.save_route_button{
-	order: 0;
-    flex: 0 1 auto; 
+.save_route_button {
+    order: 0;
+    flex: 0 1 auto;
     align-self: center;
 }
 
