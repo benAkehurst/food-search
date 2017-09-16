@@ -83,7 +83,7 @@
                 url: serachTerm
             }).then(function success(response) {
                 var options = results(response.data.results);
-                console.log(options);
+                // console.log(options);
                 $scope.openLocations = options;
                 shuffleChoice.push(options);
             }, function error(response) {
@@ -91,34 +91,13 @@
             });
         };
 
-        // var getDirections = function(dirSerach) {
-        //     $http({
-        //         method: "GET",
-        //         url: dirSerach
-        //     }).then(function success(response) {
-        //         console.log(response.data);
-        //         console.log(userLocation);
-        //         displayDirections(response.data, userLocation);
-        //     }, function error(response) {
-        //         console.log(response.statusText);
-        //     });
-        // }
-
         $scope.shuffleData = function() {
             shuffle(shuffleChoice[0]);
             makeMap(loc1, loc2, loc3);
         }
 
         $scope.makeMap = function(loc1, loc2, loc3) {
-            // console.log(loc1, loc2, loc3);
             var locObj = { loc1, loc2, loc3 };
-            // var base = "https://maps.googleapis.com/maps/api/directions/json?"
-            // var startEnd = "origin=" + loc1.vicinity + "&destination=" + loc3.vicinity;
-            // var stop = "&waypoints=" + loc2.vicinity;
-            // var type = "&mode=walking"
-            // var key = "&key=AIzaSyDBYChgRS2F1yalWlTNZ6LjaWNbJWQ11ts";
-            // var fullSearch = base + startEnd + stop + type + key;
-            // console.log(fullSearch);
             displayDirections(locObj);
         }
 
@@ -135,7 +114,6 @@
     }
 
     function displayDirections(locObj) {
-        console.log(locObj);
         var directionsDisplay;
         var directionsService = new google.maps.DirectionsService();
         var map;
@@ -169,7 +147,6 @@
             };
             directionsService.route(request, function(response, status) {
                 if (status == 'OK') {
-                    console.log(response);
                     directionsDisplay.setDirections(response);
                 }
             });
