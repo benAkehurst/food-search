@@ -3,6 +3,8 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
+var http = require("http");
+var https = require("https");
 
 // Uses for getting page elements
 app.use(bodyParser.urlencoded({extended:true}));
@@ -34,6 +36,10 @@ var Route = mongoose.model("Route",{
 var Cuisine = mongoose.model("Cusine",{
   type:String
 });
+
+// Here I need to write the http request to get the locations server side - https://stackoverflow.com/questions/9577611/http-get-request-in-node-js-express
+// Need from the user thier location
+// send back json with results
 
 // CREATE - POST candy to DB
 app.post("/saveRoute",function(request, response){
