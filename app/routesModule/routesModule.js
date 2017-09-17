@@ -58,10 +58,10 @@
 
         var daySearch = function(locObj) {
             var base = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
-            // var longLat = locObj.latitude + "," + locObj.longitude;
-            var longLat = "32.079542,34.779720";
-            var radius = "&radius=3000";
-            var type = "&type=restaurant&type=bar&type=cafe;";
+            // var longLat = locObj.latitude + "," + locObj.longitude; //comp loc
+            var longLat = "32.079542,34.779720"; //tel aviv
+            var radius = "&radius=5000";
+            var type = "&type=cafe";
             var key = "&key=AIzaSyD32rWtceO4-3aY02cxmsYwihYuNEWVIOw";
             var serachTerm = base + longLat + radius + type + key;
             places(serachTerm);
@@ -70,9 +70,10 @@
         var nightSerch = function(locObj) {
             // console.log("night");
             var base = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
-            // var longLat = locObj.latitude + "," + locObj.longitude;
-            var longLat = "32.079542,34.779720";
-            var radius = "&radius=3000";
+            // var longLat = locObj.latitude + "," + locObj.longitude; //comp loc
+            var longLat = "32.079542,34.779720"; //tel aviv
+            // var longLat = "51.510405, -0.131515"; //london
+            var radius = "&radius=1500";
             var type = "&type=bar";
             var key = "&key=AIzaSyD32rWtceO4-3aY02cxmsYwihYuNEWVIOw";
             var serachTerm = base + longLat + radius + type + key;
@@ -86,10 +87,10 @@
             }).then(function success(response) {
                 $scope.loadingIcon = true;
                 var options = results(response.data.results);
-                if(options.length <= 3){
+                if (options.length <= 3) {
                     $scope.hideRoutes = true;
                 }
-                // console.log(options);
+                console.log(options);
                 $scope.openLocations = options;
                 shuffleChoice.push(options);
             }, function error(response) {
@@ -175,7 +176,7 @@
         var shuffledArray = shuffle(resultsArray);
         var openNowLocations = [];
         for (var i = 0; i < shuffledArray.length; i++) {
-            if (shuffledArray[i].opening_hours == undefined) {} else if (shuffledArray[i].opening_hours.open_now === true && shuffledArray[i].rating >= 3.5) {
+            if (shuffledArray[i].opening_hours == undefined) {} else if (shuffledArray[i].opening_hours.open_now === true && shuffledArray[i].rating > 3) {
                 openNowLocations.push(shuffledArray[i]);
             }
         }
