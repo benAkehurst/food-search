@@ -63,8 +63,8 @@
             var radius = "&radius=5000";
             var type = "&type=cafe";
             var key = "&key=AIzaSyD32rWtceO4-3aY02cxmsYwihYuNEWVIOw";
-            var serachTerm = base + longLat + radius + type + key;
-            places(serachTerm);
+            var searchTerm = base + longLat + radius + type + key;
+            places(searchTerm);
         };
 
         var nightSerch = function(locObj) {
@@ -76,31 +76,40 @@
             var radius = "&radius=1500";
             var type = "&type=bar";
             var key = "&key=AIzaSyD32rWtceO4-3aY02cxmsYwihYuNEWVIOw";
-            var serachTerm = base + longLat + radius + type + key;
-            places(serachTerm);
+            var searchTerm = base + longLat + radius + type + key;
+            places(searchTerm);
         };
 
-        var places = function(serachTerm) {
+        var allResults = [];
+        var to500Meters = [];
+        var to1000Meters = [];
+        var to1500Meters = [];
+
+        var places = function(searchTerm) {
             $http({
                 method: "GET",
-                url: serachTerm
+                url: searchTerm
             }).then(function success(response) {
                 $scope.loadingIcon = true;
                 var options = results(response.data.results);
-                if (options.length <= 3) {
+                if (options.length <= 2) {
                     $scope.hideRoutes = true;
                 }
                 console.log(options);
-                $scope.openLocations = options;
-                shuffleChoice.push(options);
+                for (var i = 0; i < options.length; i++) {
+                    if (options[i].geometry) {
+                        var placeLatLng = {
+                            lat: options[i].geometry.location.lat,
+                            lng: options[i].geometry.location.lng
+                        }
+                        var calculatedDistance = calculateDistance(userLocation, placeLatLng);
+                        console.log(calculatedDistance);
+                    }
+                }
             }, function error(response) {
                 console.log(response.statusText);
             });
         };
-
-        $scope.shuffleData = function() {
-            shuffle(shuffleChoice[0]);
-        }
 
         $scope.makeMap = function(loc1, loc2, loc3) {
             var locObj = { loc1, loc2, loc3 };
@@ -111,6 +120,11 @@
         userCity();
 
     });
+
+    function calculateDistance(userLatLng, placeLatLng){
+        var a = {userLatLng, placeLatLng};
+        return a;
+    }
 
     function initMap(pos) {
         var map = new google.maps.Map(document.getElementById('map'), {
