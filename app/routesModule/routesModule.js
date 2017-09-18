@@ -19,6 +19,7 @@
 
         var shuffleChoice = [];
         // var userLocation = {}; // comp loc TURNED OFF FOR TESTING
+        
         var userLocation = {
             latitude: 32.079542,
             longitude: 34.779720
@@ -79,7 +80,7 @@
             // var longLat = "51.510405, -0.131515"; //london TURNED OFF FOR TESTING
             var radius = "&radius=1500";
             // var type = "&type=cafe&type=bar"; // Bar & Cafe
-            var type = "&type=bar"; // Bar 
+            var type = "&type=bar&type=cafe"; // Bar 
             var key = "&key=AIzaSyD32rWtceO4-3aY02cxmsYwihYuNEWVIOw";
             var searchTerm = base + longLat + radius + type + key;
             places(searchTerm);
@@ -96,19 +97,23 @@
                     $scope.hideRoutes = true;
                 }
                 // console.log(options);
-                $scope.openLocations = options;
+                // $scope.openLocations = options;
                 sorting(options);
             }, function error(response) {
                 console.log(response.statusText);
             });
         };
 
+        var to500Meters = [];
+        var to1000Meters = [];
+        var to1500Meters = [];
+
         var sorting = function(options) {
             var options = options;
             // console.log(options);
-            var to500Meters = [];
-            var to1000Meters = [];
-            var to1500Meters = [];
+            // var to500Meters = [];
+            // var to1000Meters = [];
+            // var to1500Meters = [];
             for (var i = 0; i < options.length; i++) {
                 if (options[i].geometry.location) {
                     var placeLatLng = {
@@ -133,28 +138,30 @@
             var closestLoc = to500Meters;
             var medLoc = to1000Meters;
             var farLoc = to1500Meters;
+            var random = randomNum(closestLoc.length, medLoc.length, farLoc.length);
+            // console.log(random);
             var route = [];
             if (closestLoc) {
-                route.push(closestLoc[0]);
+                route.push(closestLoc[random.loc1]);
             }
             if (medLoc) {
-                route.push(medLoc[0]);
+                route.push(medLoc[random.loc2]);
             }
             if (farLoc) {
-                route.push(closestLoc[1]);
+                route.push(closestLoc[random.loc4]);
             } else if (!farLoc) {
-                route.push(farLoc[0]);
+                route.push(farLoc[random.loc3]);
             }
             $scope.closetToMe = route;
+        }
+
+        $scope.shuffle = function() {
+            sortedRoutes(to500Meters, to1000Meters, to1500Meters);
         }
 
         $scope.makeMap = function(loc1, loc2, loc3) {
             var locObj = { loc1, loc2, loc3 };
             displayDirections(locObj);
-        }
-
-        $scope.shuffle = function() {
-            shuffle($scope.closetToMe);
         }
 
         getUserLocation();
@@ -255,17 +262,29 @@
         return openNowResults;
     }
 
+    function randomNum(a, b, c) {
+        // console.log(a,b,c);
+        var random = Math.floor(Math.random() * a) + 0;
+        var random2 = Math.floor(Math.random() * b) + 0;
+        var random3 = Math.floor(Math.random() * c) + 0;
+        var random4 = Math.floor(Math.random() * a) + 0;
+        var randomNumbers = {
+            loc1: random,
+            loc2: random2,
+            loc3: random3,
+            loc4: random4
+        };
+        return randomNumbers;
+    }
+
     function shuffle(array) {
         var currentIndex = array.length,
             temporaryValue, randomIndex;
-
         // While there remain elements to shuffle...
         while (0 !== currentIndex) {
-
             // Pick a remaining element...
             randomIndex = Math.floor(Math.random() * currentIndex);
             currentIndex -= 1;
-
             // And swap it with the current element.
             temporaryValue = array[currentIndex];
             array[currentIndex] = array[randomIndex];
