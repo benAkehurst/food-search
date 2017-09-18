@@ -15,28 +15,35 @@
     <div class="row" ng-show="loadingIcon" ng-hide="hideRoutes">
         <div class="col-md-5" class="choices_div">
             <section>
-                <md-card class="choice_card" ng-click="makeMap(closetToMe[0],closetToMe[1],closetToMe[2])" ng-show="closetToMe != null">
+                <md-card class="choice_card" ng-show="closetToMe != null">
                     <md-card-actions layout="row" layout-align="start center">
                         <md-card-title class="">
-                            <md-card-title-text>
+                            <md-card-title-text ng-click="showDetails(closetToMe[0],'a')">
                                 <h4>{{closetToMe[0].name}}</h4>
                             </md-card-title-text>
                         </md-card-title>
                         <div><i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i></div>
                         <md-card-title class="">
-                            <md-card-title-text>
+                            <md-card-title-text ng-click="showDetails(closetToMe[1],'b')">
                                 <h4>{{closetToMe[1].name}}</h4>
                             </md-card-title-text>
                         </md-card-title>
                         <div><i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i></div>
                         <md-card-title class="">
-                            <md-card-title-text>
+                            <md-card-title-text ng-click="showDetails(closetToMe[2],'c')">
                                 <h4>{{closetToMe[2].name}}</h4>
                             </md-card-title-text>
                         </md-card-title>
                 </md-card>
-                <div class="suffle_routes_container">
+                <div class="routes_button_container">
                     <md-button class="md-raised shuffle_choices_button" ng-click="shuffle()">Shuffle Choices</md-button>
+                    <md-button class="md-raised md-accent pick_route_button" ng-click="makeMap(closetToMe[0],closetToMe[1],closetToMe[2])">Show me this route</md-button>
+                </div>
+            	<div class="location_details_container">
+                	<h3>{{detialsName}}</h3>
+                	<h4>Marker: {{marker}}</h4>
+                	<h4>Rating: {{detialsRating}}</h4>
+                	<img ng-src="{{detailsImage}}" alt="">
                 </div>
             </section>
         </div>
