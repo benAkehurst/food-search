@@ -19,7 +19,7 @@
 
         var shuffleChoice = [];
         // var userLocation = {}; // comp loc TURNED OFF FOR TESTING
-        
+
         var userLocation = {
             latitude: 32.079542,
             longitude: 34.779720
@@ -162,6 +162,16 @@
         $scope.makeMap = function(loc1, loc2, loc3) {
             var locObj = { loc1, loc2, loc3 };
             displayDirections(locObj);
+        }
+
+        $scope.showDetails = function(location,marker) {
+            var key = "&key=AIzaSyD32rWtceO4-3aY02cxmsYwihYuNEWVIOw";
+            $scope.detialsName = location.name;
+            $scope.detialsHours = location.opening_hours.open_now;
+            $scope.marker = marker.toUpperCase();
+            $scope.detialsRating = location.rating;
+            var searchTerm = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" + location.photos[0].photo_reference + "&sensor=false" + key;
+            $scope.detailsImage = searchTerm;
         }
 
         getUserLocation();

@@ -15,7 +15,7 @@ h1 {
     font-family: 'Roboto Mono', monospace;
 }
 
-.suffle_routes_container {
+.routes_button_container {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -24,8 +24,20 @@ h1 {
     align-items: center;
 }
 
+.location_details_container{
+	order: 0;
+    flex: 0 1 auto;
+    align-self: center;
+    text-align: center;
+}
+
 .shuffle_choices_button {
     order: 0;
+    flex: 0 1 auto;
+    align-self: center;
+}
+.pick_route_button {
+	order: 1;
     flex: 0 1 auto;
     align-self: center;
 }
