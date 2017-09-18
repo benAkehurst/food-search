@@ -1,44 +1,54 @@
 <link rel="stylesheet" type="text/css" href="app/routesModule/routesView.css">
 <div class="container-fluid">
     <div class="row">
-        <div class="title_row" ng-show="loadingIcon">
-            <h1>Pick a route in {{city}}!</h1>
-        </div>
+        <section>
+            <div class="title_row" ng-show="loadingIcon">
+                <h1>Pick a route in {{city}}!</h1>
+            </div>
+        </section>
     </div>
     <div layout="row" layout-sm="column" layout-align="space-around" ng-hide="loadingIcon" class="loading_icon">
-        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+        <section>
+            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+        </section>
     </div>
     <div class="row" ng-show="loadingIcon" ng-hide="hideRoutes">
         <div class="col-md-5" class="choices_div">
-            <md-card class="choice_card" ng-click="makeMap(openLocations[0],openLocations[1],openLocations[2])" ng-show="openLocations != null">
-                <md-card-actions layout="row" layout-align="start center">
-                    <md-card-title class="">
-                        <md-card-title-text>
-                            <h4>{{openLocations[0].name}}</h4>
-                        </md-card-title-text>
-                    </md-card-title>
-                    <div><i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i></div>
-                    <md-card-title class="">
-                        <md-card-title-text>
-                            <h4>{{openLocations[1].name}}</h4>
-                        </md-card-title-text>
-                    </md-card-title>
-                    <div><i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i></div>
-                    <md-card-title class="">
-                        <md-card-title-text>
-                            <h4>{{openLocations[2].name}}</h4>
-                        </md-card-title-text>
-                    </md-card-title>
-            </md-card>
-            <div class="suffle_routes_container">
-                <md-button class="md-raised shuffle_choices_button" ng-click="shuffle()">Shuffle Choices</md-button>
-            </div>
+            <section>
+                <md-card class="choice_card" ng-click="makeMap(closetToMe[0],closetToMe[1],closetToMe[2])" ng-show="openLocations != null">
+                    <md-card-actions layout="row" layout-align="start center">
+                        <md-card-title class="">
+                            <md-card-title-text>
+                                <h4>{{closetToMe[0].name}}</h4>
+                            </md-card-title-text>
+                        </md-card-title>
+                        <div><i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i></div>
+                        <md-card-title class="">
+                            <md-card-title-text>
+                                <h4>{{closetToMe[1].name}}</h4>
+                            </md-card-title-text>
+                        </md-card-title>
+                        <div><i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i></div>
+                        <md-card-title class="">
+                            <md-card-title-text>
+                                <h4>{{closetToMe[2].name}}</h4>
+                            </md-card-title-text>
+                        </md-card-title>
+                </md-card>
+                <div class="suffle_routes_container">
+                    <md-button class="md-raised shuffle_choices_button" ng-click="shuffle()">Shuffle Choices</md-button>
+                </div>
+            </section>
         </div>
         <div class="col-md-7" class="border map_div">
-            <div id="map"></div>
-            <div class="save_route_container">
-                <md-button class="md-raised save_route_button" ng-click="">Save This Route</md-button>
-            </div>
+            <section>
+                <div id="map"></div>
+            </section>
+            <section>
+                <div class="save_route_container">
+                    <md-button class="md-raised save_route_button" ng-click="">Save This Route</md-button>
+                </div>
+            </section>
         </div>
     </div>
     <div ng-show="hideRoutes">
