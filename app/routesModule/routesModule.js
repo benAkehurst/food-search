@@ -18,7 +18,11 @@
         };
 
         var shuffleChoice = [];
-        var userLocation = {};
+        // var userLocation = {}; // comp loc TURNED OFF FOR TESTING
+        var userLocation = {
+            latitude: 32.079542,
+            longitude: 34.779720
+        }; // Tel Aviv
         $scope.loadingIcon = false;
         $scope.hideRoutes = false;
 
@@ -47,7 +51,7 @@
                 latitude: latitude,
                 longitude: longitude
             };
-            userLocation = locObj;
+            // userLocation = locObj; // TURNED OFF FOR TESTING
             var time = tellTime();
             if (time === 'day') {
                 daySearch(locObj);
@@ -70,11 +74,12 @@
         var nightSerch = function(locObj) {
             // console.log("night");
             var base = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
-            // var longLat = locObj.latitude + "," + locObj.longitude; //comp loc
+            // var longLat = locObj.latitude + "," + locObj.longitude; //comp loc TURNED OFF FOR TESTING
             var longLat = "32.079542,34.779720"; //tel aviv
-            // var longLat = "51.510405, -0.131515"; //london
+            // var longLat = "51.510405, -0.131515"; //london TURNED OFF FOR TESTING
             var radius = "&radius=1500";
-            var type = "&type=bar";
+            // var type = "&type=cafe&type=bar"; // Bar & Cafe
+            var type = "&type=bar"; // Bar 
             var key = "&key=AIzaSyD32rWtceO4-3aY02cxmsYwihYuNEWVIOw";
             var searchTerm = base + longLat + radius + type + key;
             places(searchTerm);
@@ -111,9 +116,19 @@
                         lng: options[i].geometry.location.lng
                     };
                     var calculatedDistance = calculateDistance(userLocation, placeLatLng);
-                    console.log(calculatedDistance);
+                    // console.log(calculatedDistance);
+                }
+                if (calculatedDistance < 499) {
+                    to500Meters.push(options[i]);
+                } else if (calculatedDistance > 500 && calculatedDistance < 999) {
+                    to1000Meters.push(options[i]);
+                } else if (calculatedDistance > 1000 && calculatedDistance <= 1500) {
+                    to1500Meters.push(options[i]);
                 }
             }
+            console.log(to500Meters);
+            console.log(to1000Meters);
+            console.log(to1500Meters);
         }
 
         $scope.makeMap = function(loc1, loc2, loc3) {
@@ -121,7 +136,7 @@
             displayDirections(locObj);
         }
 
-        $scope.shuffle = function(){
+        $scope.shuffle = function() {
             shuffle($scope.openLocations);
         }
 
@@ -132,13 +147,25 @@
 
 
 
-    function calculateDistance(userLatLng, placeLatLng) {
-        var locations = { userLatLng, placeLatLng };
-        console.log(locations);
-        console.log("User LatLng: " + userLatLng.latitude +"," + userLatLng.longitude  + " " + "Place LatLng: " + placeLatLng.lat +"," + placeLatLng.lng );
-        var userLocation = userLatLng.latitude +","+ userLatLng.longitude;
-        var placeLocation = placeLatLng.lat +","+ placeLatLng.lng;
-        return placeLocation;
+    function calculateDistance(userLocation, placeLatLng) {
+        var getDistance = distance(userLocation.latitude, userLocation.longitude, placeLatLng.lat, placeLatLng.lng);
+        return getDistance;
+    }
+
+    function distance(lat1, lon1, lat2, lon2) {
+        // console.log('running');
+        // console.log(lat1, lon1, lat2, lon2);
+        var R = 6371; // km (change this constant to get miles)
+        var dLat = (lat2 - lat1) * Math.PI / 180;
+        var dLon = (lon2 - lon1) * Math.PI / 180;
+        var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        var d = R * c;
+        if (d > 1) return Math.round(d);
+        else if (d <= 1) return Math.round(d * 1000);
+        return d;
     }
 
     function initMap(pos) {
