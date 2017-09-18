@@ -126,9 +126,26 @@
                     to1500Meters.push(options[i]);
                 }
             }
-            console.log(to500Meters);
-            console.log(to1000Meters);
-            console.log(to1500Meters);
+            sortedRoutes(to500Meters, to1000Meters, to1500Meters);
+        }
+
+        var sortedRoutes = function(to500Meters, to1000Meters, to1500Meters) {
+            var closestLoc = to500Meters;
+            var medLoc = to1000Meters;
+            var farLoc = to1500Meters;
+            var route = [];
+            if (closestLoc) {
+                route.push(closestLoc[0]);
+            }
+            if (medLoc) {
+                route.push(medLoc[0]);
+            }
+            if (farLoc) {
+                route.push(closestLoc[1]);
+            } else if (!farLoc) {
+                route.push(farLoc[0]);
+            }
+            $scope.closetToMe = route;
         }
 
         $scope.makeMap = function(loc1, loc2, loc3) {
@@ -137,15 +154,13 @@
         }
 
         $scope.shuffle = function() {
-            shuffle($scope.openLocations);
+            shuffle($scope.closetToMe);
         }
 
         getUserLocation();
         userCity();
 
     });
-
-
 
     function calculateDistance(userLocation, placeLatLng) {
         var getDistance = distance(userLocation.latitude, userLocation.longitude, placeLatLng.lat, placeLatLng.lng);
