@@ -80,11 +80,6 @@
             places(searchTerm);
         };
 
-        var allResults = [];
-        var to500Meters = [];
-        var to1000Meters = [];
-        var to1500Meters = [];
-
         var places = function(searchTerm) {
             $http({
                 method: "GET",
@@ -95,25 +90,39 @@
                 if (options.length <= 2) {
                     $scope.hideRoutes = true;
                 }
-                console.log(options);
-                for (var i = 0; i < options.length; i++) {
-                    if (options[i].geometry) {
-                        var placeLatLng = {
-                            lat: options[i].geometry.location.lat,
-                            lng: options[i].geometry.location.lng
-                        }
-                        var calculatedDistance = calculateDistance(userLocation, placeLatLng);
-                        console.log(calculatedDistance);
-                    }
-                }
+                // console.log(options);
+                $scope.openLocations = options;
+                sorting(options);
             }, function error(response) {
                 console.log(response.statusText);
             });
         };
 
+        var sorting = function(options) {
+            var options = options;
+            // console.log(options);
+            var to500Meters = [];
+            var to1000Meters = [];
+            var to1500Meters = [];
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].geometry.location) {
+                    var placeLatLng = {
+                        lat: options[i].geometry.location.lat,
+                        lng: options[i].geometry.location.lng
+                    };
+                    var calculatedDistance = calculateDistance(userLocation, placeLatLng);
+                    console.log(calculatedDistance);
+                }
+            }
+        }
+
         $scope.makeMap = function(loc1, loc2, loc3) {
             var locObj = { loc1, loc2, loc3 };
             displayDirections(locObj);
+        }
+
+        $scope.shuffle = function(){
+            shuffle($scope.openLocations);
         }
 
         getUserLocation();
@@ -121,9 +130,15 @@
 
     });
 
-    function calculateDistance(userLatLng, placeLatLng){
-        var a = {userLatLng, placeLatLng};
-        return a;
+
+
+    function calculateDistance(userLatLng, placeLatLng) {
+        var locations = { userLatLng, placeLatLng };
+        console.log(locations);
+        console.log("User LatLng: " + userLatLng.latitude +"," + userLatLng.longitude  + " " + "Place LatLng: " + placeLatLng.lat +"," + placeLatLng.lng );
+        var userLocation = userLatLng.latitude +","+ userLatLng.longitude;
+        var placeLocation = placeLatLng.lat +","+ placeLatLng.lng;
+        return placeLocation;
     }
 
     function initMap(pos) {
