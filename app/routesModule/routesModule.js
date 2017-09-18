@@ -83,10 +83,10 @@
             var type = "&type=bar&type=cafe"; // Bar 
             var key = "&key=AIzaSyD32rWtceO4-3aY02cxmsYwihYuNEWVIOw";
             var searchTerm = base + longLat + radius + type + key;
-            places(searchTerm);
+            getPlaces(searchTerm);
         };
 
-        var places = function(searchTerm) {
+        var getPlaces = function(searchTerm) {
             $http({
                 method: "GET",
                 url: searchTerm
@@ -164,7 +164,7 @@
             displayDirections(locObj);
         }
 
-        $scope.showDetails = function(location,marker) {
+        $scope.showDetails = function(location, marker) {
             var key = "&key=AIzaSyD32rWtceO4-3aY02cxmsYwihYuNEWVIOw";
             $scope.detialsName = location.name;
             $scope.detialsHours = location.opening_hours.open_now;
