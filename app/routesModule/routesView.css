@@ -25,6 +25,7 @@ h1 {
 }
 
 .location_details_container{
+	font-family: 'Rubik', sans-serif;
 	order: 0;
     flex: 0 1 auto;
     align-self: center;
