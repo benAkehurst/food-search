@@ -69,7 +69,7 @@
             var type = "&type=cafe";
             var key = "&key=AIzaSyD32rWtceO4-3aY02cxmsYwihYuNEWVIOw";
             var searchTerm = base + longLat + radius + type + key;
-            places(searchTerm);
+            getPlaces(searchTerm);
         };
 
         var nightSerch = function(locObj) {
