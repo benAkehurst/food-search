@@ -36,6 +36,8 @@ var Cuisine = mongoose.model("Cusine", {
     type: String
 });
 
+// https://stackoverflow.com/questions/24186630/nodejs-express-make-get-request - solution for making http request server side
+
 // CREATE - POST candy to DB
 app.post("/saveRoute", function(request, response) {
     var newRoute = new Route(request.body);
