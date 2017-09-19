@@ -87,6 +87,10 @@
         };
 
         var getPlaces = function(searchTerm) {
+            // $http.get("/routePlaces", searchTerm)
+            // .success(function(data){})
+            // .error(function(data){});
+            // https://stackoverflow.com/questions/33108326/how-to-pass-client-side-parameters-to-the-server-side-in-angular-node-js-express
             $http({
                 method: "GET",
                 url: searchTerm
