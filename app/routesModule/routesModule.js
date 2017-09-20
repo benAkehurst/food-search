@@ -24,7 +24,8 @@
         //     longitude: 34.779720}; // Tel Aviv // TURNED OFF FOR TESTING
         var userLocation = {
             latitude: 51.513044,
-            longitude:  -0.124476}; // covent garden
+            longitude: -0.124476
+        }; // covent garden
         $scope.loadingIcon = false;
         $scope.hideRoutes = false;
 
@@ -175,32 +176,22 @@
         }
 
         $scope.showDetails = function(location, marker) {
-            var key = "&key=AIzaSyD32rWtceO4-3aY02cxmsYwihYuNEWVIOw";
-            $scope.detialsName = location.name;
-            $scope.detialsHours = location.opening_hours.open_now;
-            $scope.marker = marker.toUpperCase();
-            $scope.detialsRating = location.rating;
-            var searchTerm = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" + location.photos[0].photo_reference + "&sensor=false" + key;
-            $scope.detailsImage = searchTerm;
-
-            var data = searchParams;
+            var loacation = location.photos[0].photo_reference;
+            var data = { ref: loacation };
+            // console.log(data);
             $http({
                 method: "POST",
-                url: '/routeOptions',
+                url: '/getPlaceImage',
                 data: data
             }).then(function success(response) {
-                // console.log(response.data.results);
-                $scope.loadingIcon = true;
-                var options = results(response.data.results);
-                if (options.length <= 2) {
-                    $scope.hideRoutes = true;
-                }
-                // console.log(options);
-                // $scope.openLocations = options;
-                sorting(options);
+                // console.log(response.data);
+                $scope.detailsImage = response.data;
             }, function error(response) {
                 console.log(response.statusText);
             });
+            $scope.detialsName = location.name;
+            $scope.marker = marker.toUpperCase();
+            $scope.detialsRating = location.rating;
         }
 
         getUserLocation();

@@ -44,6 +44,7 @@ var Cuisine = mongoose.model("Cusine", {
 });
 
 app.post('/routeOptions', function(req, res) {
+    console.log('Requesting Places from Goolge API');
     var base = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
     var longLat = req.body.location;
     var radius = req.body.radius;
@@ -57,26 +58,20 @@ app.post('/routeOptions', function(req, res) {
             // do more stuff
             // console.log(options);
             res.send(options);
+            console.log('Places sent to FE');
         }
     })
 });
 
 app.post('/getPlaceImage', function(req, res) {
-    var base = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
-    var longLat = req.body.location;
-    var radius = req.body.radius;
-    var type = req.body.type;
+    console.log("Requesting Image url");
+    var base = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference="; 
+    var location = req.body.ref;
+    var sensor = "&sensor=false";
     var key = "&key=AIzaSyD32rWtceO4-3aY02cxmsYwihYuNEWVIOw";
-    var searchTerm = base + longLat + radius + type + key;
-    // console.log(searchTerm);
-    request(searchTerm, function(error, response, body) {
-        if (!error && response.statusCode == 200) {
-            var options = JSON.parse(body)
-            // do more stuff
-            // console.log(options);
-            res.send(options);
-        }
-    })
+    var photoUrl = base + location + sensor + key;
+    res.send(photoUrl);
+    console.log("Photo Url sent to FE");
 });
 
 // CREATE - POST candy to DB
