@@ -6,24 +6,25 @@
 
     routesModule.controller("RoutesController", function($filter, $http, $scope, $rootScope, $location) {
 
-        var userCity = function() {
-            $http({
-                method: 'GET',
-                url: 'https://ipinfo.io'
-            }).then(function successCallback(response) {
-                $scope.city = response.data.city;
-            }, function errorCallback(response) {
-                console.log(response);
-            });
-        };
+        // var userCity = function() {
+        //     $http({
+        //         method: 'GET',
+        //         url: 'https://ipinfo.io'
+        //     }).then(function successCallback(response) {
+        //         $scope.city = response.data.city;
+        //     }, function errorCallback(response) {
+        //         console.log(response);
+        //     });
+        // };
 
         var shuffleChoice = [];
         // var userLocation = {}; // comp loc TURNED OFF FOR TESTING
-
+        // var userLocation = {
+        //     latitude: 32.079542,
+        //     longitude: 34.779720}; // Tel Aviv // TURNED OFF FOR TESTING
         var userLocation = {
-            latitude: 32.079542,
-            longitude: 34.779720
-        }; // Tel Aviv
+            latitude: 51.513044,
+            longitude:  -0.124476}; // covent garden
         $scope.loadingIcon = false;
         $scope.hideRoutes = false;
 
@@ -62,39 +63,43 @@
         };
 
         var daySearch = function(locObj) {
-            var base = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
-            // var longLat = locObj.latitude + "," + locObj.longitude; //comp loc
-            var longLat = "32.079542,34.779720"; //tel aviv
-            var radius = "&radius=5000";
-            var type = "&type=cafe";
-            var key = "&key=AIzaSyD32rWtceO4-3aY02cxmsYwihYuNEWVIOw";
-            var searchTerm = base + longLat + radius + type + key;
-            getPlaces(searchTerm);
+            // var longLat = locObj.latitude + "," + locObj.longitude; //comp loc TURNED OFF FOR TESTING
+            // var longLat = "32.079542,34.779720"; //tel aviv
+            var longLat = "51.510405,-0.131515"; //london TURNED OFF FOR TESTING
+            var radius = "&radius=1500";
+            // var type = "&type=cafe&type=bar"; // Bar & Cafe
+            var type = "&type=cafe"; // Bar
+            var searchParams = {
+                location: longLat,
+                radius: radius,
+                type: type
+            }
+            routeOptions(searchParams);
         };
 
         var nightSerch = function(locObj) {
-            // console.log("night");
-            var base = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
             // var longLat = locObj.latitude + "," + locObj.longitude; //comp loc TURNED OFF FOR TESTING
-            var longLat = "32.079542,34.779720"; //tel aviv
-            // var longLat = "51.510405, -0.131515"; //london TURNED OFF FOR TESTING
+            // var longLat = "32.079542,34.779720"; //tel aviv
+            var longLat = "51.510405,-0.131515"; //london TURNED OFF FOR TESTING
             var radius = "&radius=1500";
             // var type = "&type=cafe&type=bar"; // Bar & Cafe
-            var type = "&type=bar&type=cafe"; // Bar 
-            var key = "&key=AIzaSyD32rWtceO4-3aY02cxmsYwihYuNEWVIOw";
-            var searchTerm = base + longLat + radius + type + key;
-            getPlaces(searchTerm);
+            var type = "&type=bar&type=cafe"; // Bar
+            var searchParams = {
+                location: longLat,
+                radius: radius,
+                type: type
+            }
+            routeOptions(searchParams);
         };
 
-        var getPlaces = function(searchTerm) {
-            // $http.get("/routePlaces", searchTerm)
-            // .success(function(data){})
-            // .error(function(data){});
-            // https://stackoverflow.com/questions/33108326/how-to-pass-client-side-parameters-to-the-server-side-in-angular-node-js-express
+        var routeOptions = function(searchParams) {
+            var data = searchParams;
             $http({
-                method: "GET",
-                url: searchTerm
+                method: "POST",
+                url: '/routeOptions',
+                data: data
             }).then(function success(response) {
+                // console.log(response.data.results);
                 $scope.loadingIcon = true;
                 var options = results(response.data.results);
                 if (options.length <= 2) {
@@ -106,7 +111,7 @@
             }, function error(response) {
                 console.log(response.statusText);
             });
-        };
+        }
 
         var to500Meters = [];
         var to1000Meters = [];
@@ -145,6 +150,7 @@
             var random = randomNum(closestLoc.length, medLoc.length, farLoc.length);
             // console.log(random);
             var route = [];
+            // console.log(route);
             if (closestLoc) {
                 route.push(closestLoc[random.loc1]);
             }
@@ -176,10 +182,29 @@
             $scope.detialsRating = location.rating;
             var searchTerm = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" + location.photos[0].photo_reference + "&sensor=false" + key;
             $scope.detailsImage = searchTerm;
+
+            var data = searchParams;
+            $http({
+                method: "POST",
+                url: '/routeOptions',
+                data: data
+            }).then(function success(response) {
+                // console.log(response.data.results);
+                $scope.loadingIcon = true;
+                var options = results(response.data.results);
+                if (options.length <= 2) {
+                    $scope.hideRoutes = true;
+                }
+                // console.log(options);
+                // $scope.openLocations = options;
+                sorting(options);
+            }, function error(response) {
+                console.log(response.statusText);
+            });
         }
 
         getUserLocation();
-        userCity();
+        // userCity();
 
     });
 
@@ -262,17 +287,20 @@
 
     function results(response) {
         var resultsArray = [];
+        // console.log(resultsArray);
         for (var i = 0; i < response.length; i++) {
             resultsArray.push(response[i]);
         }
         var shuffledArray = shuffle(resultsArray);
         var openNowLocations = [];
+        // console.log(openNowLocations);
         for (var i = 0; i < shuffledArray.length; i++) {
             if (shuffledArray[i].opening_hours == undefined) {} else if (shuffledArray[i].opening_hours.open_now === true && shuffledArray[i].rating > 3) {
                 openNowLocations.push(shuffledArray[i]);
             }
         }
         var openNowResults = shuffle(openNowLocations);
+        // console.log(openNowResults);
         return openNowResults;
     }
 

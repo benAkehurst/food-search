@@ -5,11 +5,18 @@ var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var http = require("http");
 var https = require("https");
+var request = require('request');
+var router = express.Router();
 
 // Uses for getting page elements
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(__dirname));
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 
 // Connect to DB with mongoose
 mongoose.Promise = global.Promise;
@@ -36,7 +43,41 @@ var Cuisine = mongoose.model("Cusine", {
     type: String
 });
 
-// https://stackoverflow.com/questions/24186630/nodejs-express-make-get-request - solution for making http request server side
+app.post('/routeOptions', function(req, res) {
+    var base = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
+    var longLat = req.body.location;
+    var radius = req.body.radius;
+    var type = req.body.type;
+    var key = "&key=AIzaSyD32rWtceO4-3aY02cxmsYwihYuNEWVIOw";
+    var searchTerm = base + longLat + radius + type + key;
+    // console.log(searchTerm);
+    request(searchTerm, function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var options = JSON.parse(body)
+            // do more stuff
+            // console.log(options);
+            res.send(options);
+        }
+    })
+});
+
+app.post('/getPlaceImage', function(req, res) {
+    var base = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
+    var longLat = req.body.location;
+    var radius = req.body.radius;
+    var type = req.body.type;
+    var key = "&key=AIzaSyD32rWtceO4-3aY02cxmsYwihYuNEWVIOw";
+    var searchTerm = base + longLat + radius + type + key;
+    // console.log(searchTerm);
+    request(searchTerm, function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var options = JSON.parse(body)
+            // do more stuff
+            // console.log(options);
+            res.send(options);
+        }
+    })
+});
 
 // CREATE - POST candy to DB
 app.post("/saveRoute", function(request, response) {
