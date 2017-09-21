@@ -69,7 +69,8 @@
             var longLat = "51.510405,-0.131515"; //london TURNED OFF FOR TESTING
             var radius = "&radius=1500";
             // var type = "&type=cafe&type=bar"; // Bar & Cafe
-            var type = "&type=cafe"; // Bar
+            var type = "&type=resturant"; // Bar & Cafe
+            // var type = "&type=cafe"; // cafe
             var searchParams = {
                 location: longLat,
                 radius: radius,
@@ -194,10 +195,21 @@
             $scope.detialsRating = location.rating;
         }
 
+        $scope.reloadPage = function(){
+            $route.reload();
+        }
+
         getUserLocation();
         // userCity();
 
     });
+
+    function initMap(pos) {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: new google.maps.LatLng(pos.latitude, pos.longitude)
+        });
+    }
 
     function calculateDistance(userLocation, placeLatLng) {
         var getDistance = distance(userLocation.latitude, userLocation.longitude, placeLatLng.lat, placeLatLng.lng);
@@ -218,13 +230,6 @@
         if (d > 1) return Math.round(d);
         else if (d <= 1) return Math.round(d * 1000);
         return d;
-    }
-
-    function initMap(pos) {
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 15,
-            center: new google.maps.LatLng(pos.latitude, pos.longitude)
-        });
     }
 
     function displayDirections(locObj) {

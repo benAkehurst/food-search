@@ -59,19 +59,18 @@
         </div>
     </div>
     <div ng-show="hideRoutes">
-        <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+        <md-card>
             <md-card-title>
                 <md-card-title-text>
                     <span class="md-headline">No Current Routes Avaliable</span>
-                    <span class="md-subhead">Large</span>
+                    <span class="md-subhead">Try going to a new location andy trying agian.</span>
                 </md-card-title-text>
                 <md-card-title-media>
                     <div class="md-media-lg card-media"></div>
                 </md-card-title-media>
             </md-card-title>
             <md-card-actions layout="row" layout-align="end center">
-                <md-button>Action 1</md-button>
-                <md-button>Action 2</md-button>
+                <md-button ng-click="reloadPage()">Reload The page</md-button>
             </md-card-actions>
         </md-card>
     </div>
