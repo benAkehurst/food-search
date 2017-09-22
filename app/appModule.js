@@ -3,12 +3,12 @@
     'use strict';
 
     var appModule = angular.module("appModule", ["ngRoute",
-            "ngMaterial",
-            "loginModule",
-            "routesModule",
-            "exploreModule",
-            "profileModule"
-        ]);
+        "ngMaterial",
+        "loginModule",
+        "routesModule",
+        "exploreModule",
+        "profileModule"
+    ]);
 
 
     appModule.config(function($routeProvider) {
@@ -16,6 +16,13 @@
             $routeProvider
 
                 .when("/login", {
+                    // resolve: {
+                    //     "check": function($location) {
+                    //         if (sessionStorage.userLoggedIn) {
+                    //             $location.path("/school");
+                    //         }
+                    //     }
+                    // },
                     controller: "LoginController",
                     templateUrl: "app/loginModule/loginView.html"
                 })
