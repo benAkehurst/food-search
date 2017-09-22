@@ -67,6 +67,21 @@ app.post('/registerUser', function(req, res) {
     // TODO - Salt/Hash Passwords
 });
 
+app.post('/login', function(req, res) {
+    var email = req.body.email;
+    var password = req.body.password;
+    firebase.auth().signInWithEmailAndPassword(email, password)
+        .catch(function(error) {
+            console.log(error.code);
+            console.log(error.message);
+        });
+    var loggedInData = {
+        loggedIn: true,
+        userEmail: email
+    }
+    res.send(loggedInData);
+});
+
 // API call to google places to get locations list
 app.post('/routeOptions', function(req, res) {
     console.log('Requesting Places from Goolge API');

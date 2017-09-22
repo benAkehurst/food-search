@@ -11,7 +11,24 @@
         $scope.signUpSuccess = false;
 
         $scope.login = function(email, password) {
-            console.log(email + "," + password);
+        	console.log("Login")
+            var data = {
+                email: email,
+                password: password
+            };
+            $http({
+                method: "POST",
+                url: '/login',
+                data: data
+            }).then(function success(response) {
+            	console.log(response.data);
+                // if (response.data === true) {
+                //     console.log("loged in UP");
+                //     $location.path('/routes');
+                // }
+            }, function error(response) {
+                console.log(response.statusText);
+            });
         }
 
         $scope.signUp = function(email, password) {
