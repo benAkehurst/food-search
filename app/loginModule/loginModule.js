@@ -2,16 +2,20 @@
 
     'use strict';
 
+    var isDlgOpen;
+
     var loginModule = angular.module("loginModule", []);
 
-    loginModule.controller("LoginController", function($http, $route, $scope, $rootScope, $location) {
+    loginModule.controller("LoginController", function($http, $route, $scope, $rootScope, $location,$timeout) {
+
+        $scope.signUpSuccess = false;
 
         $scope.login = function(email, password) {
             console.log(email + "," + password);
         }
 
         $scope.signUp = function(email, password) {
-        	console.log("signup Called");
+            // console.log("signup Called");
             var data = {
                 email: email,
                 password: password
@@ -21,8 +25,14 @@
                 url: '/registerUser',
                 data: data
             }).then(function success(response) {
-                console.log(response);
-                sorting(options);
+                $scope.sign_up_form.$setPristine();
+                if (response.data === true) {
+                    console.log("Signed UP");
+                    $scope.signUpSuccess = true;
+                    $timeout(function() {
+                        $scope.signUpSuccess = false;
+                    }, 5000);
+                }
             }, function error(response) {
                 console.log(response.statusText);
             });

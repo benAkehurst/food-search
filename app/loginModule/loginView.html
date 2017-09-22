@@ -58,9 +58,11 @@
                                             <input type="password" name="password" ng-model="sign_up_form_password" placeholder="password" required>
                                             <div ng-messages="sign_up_form.password.$error" role="alert">
                                                 <div ng-message="required" class="my-message">Please enter a password.</div>
+                                                <!-- TODO: Make PW minium 6 char -->
                                             </div>
                                         </md-input-container>
                                         <md-button ng-disabled="!sign_up_form.$valid" ng-click="signUp(sign_up_form_email,sign_up_form_password)" class="md-raised md-primary">&nbsp Sign Up &nbsp</md-button>
+                                        <md-content ng-show="signUpSuccess">SIGNED UP SUCCESSFULLY</md-content>
                                     </form>
                                 </md-card-content>
                             </md-card>

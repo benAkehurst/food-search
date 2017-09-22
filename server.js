@@ -94,6 +94,7 @@ app.post('/registerUser', function(req, res) {
             console.log(error.code);
             console.log(error.message);
         });
+    res.send(true);
 });
 
 // CREATE - POST candy to DB
