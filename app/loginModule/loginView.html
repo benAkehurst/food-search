@@ -1,113 +1,90 @@
 <link rel="stylesheet" type="text/css" href="app/loginModule/loginView.css">
 <div class="login_container">
-    <div class="container">
-        <div class="col-md-6">
-            <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <div class="panel-title">Sign In</div>
-                        <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">Forgot password?</a></div>
-                    </div>
-                    <div style="padding-top:30px" class="panel-body">
-                        <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
-                        <form id="loginform" class="form-horizontal" role="form">
-                            <div style="margin-bottom: 25px" class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                <input id="login-username" type="text" class="form-control" name="username" value="" placeholder="email">
-                            </div>
-                            <div style="margin-bottom: 25px" class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                <input id="login-password" type="password" class="form-control" name="password" placeholder="password">
-                            </div>
-                            <div class="input-group">
-                                <div class="checkbox">
-                                    <label>
-                                        <input id="login-remember" type="checkbox" name="remember" value="1"> Remember me
-                                    </label>
-                                </div>
-                            </div>
-                            <div style="margin-top:10px" class="form-group">
-                                <!-- Button -->
-                                <div class="col-sm-12 controls">
-                                    <a id="btn-login" href="#" class="btn btn-success">Login  </a>
-                                    <a id="btn-fblogin" href="#" class="btn btn-primary">Login with Facebook</a>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-12 control">
-                                    <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%">
-                                        Don't have an account!
-                                        <a href="#" onClick="$('#loginbox').hide(); $('#signupbox').show()">
-                                            Sign Up Here
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div id="signupbox" style="display:none; margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <div class="panel-title">Sign Up</div>
-                        <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="#" onclick="$('#signupbox').hide(); $('#loginbox').show()">Sign In</a></div>
-                    </div>
-                    <div class="panel-body">
-                        <form id="signupform" class="form-horizontal" role="form">
-                            <div id="signupalert" style="display:none" class="alert alert-danger">
-                                <p>Error:</p>
-                                <span></span>
-                            </div>
-                            <div class="form-group">
-                                <label for="email" class="col-md-3 control-label">Email</label>
-                                <div class="col-md-9">
-                                    <input type="text" class="form-control" name="email" placeholder="Email Address">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="firstname" class="col-md-3 control-label">First Name</label>
-                                <div class="col-md-9">
-                                    <input type="text" class="form-control" name="firstname" placeholder="First Name">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="lastname" class="col-md-3 control-label">Last Name</label>
-                                <div class="col-md-9">
-                                    <input type="text" class="form-control" name="lastname" placeholder="Last Name">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="password" class="col-md-3 control-label">Password</label>
-                                <div class="col-md-9">
-                                    <input type="password" class="form-control" name="passwd" placeholder="Password">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="icode" class="col-md-3 control-label">Invitation Code</label>
-                                <div class="col-md-9">
-                                    <input type="text" class="form-control" name="icode" placeholder="">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <!-- Button -->
-                                <div class="col-md-offset-3 col-md-9">
-                                    <button id="btn-signup" type="button" class="btn btn-info"><i class="icon-hand-right"></i> &nbsp Sign Up</button>
-                                    <span style="margin-left:8px;">or</span>
-                                </div>
-                            </div>
-                            <div style="border-top: 1px solid #999; padding-top:20px" class="form-group">
-                                <div class="col-md-offset-3 col-md-9">
-                                    <button id="btn-fbsignup" type="button" class="btn btn-primary"><i class="icon-facebook"></i>   Sign Up with Facebook</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-        	<h1>Enter Site</h1>
+    <div class="left_side col-md-6">
+        <div ng-cloak>
+            <md-content>
+                <md-tabs md-dynamic-height md-border-bottom>
+                    <md-tab label="Login">
+                        <md-content class="md-padding">
+                            <md-content ng-cloak="ng-cloak" class="login_form">
+                                <md-card>
+                                    <md-toolbar>
+                                        <div class="md-toolbar-tools">
+                                            <h2><span>Login</span></h2>
+                                        </div>
+                                    </md-toolbar>
+                                    <md-card-content>
+                                        <form name="login_form">
+                                            <md-input-container class="md-block">
+                                                <label>Email</label>
+                                                <input type="text" name="email" ng-model="login_form_email" placeholder="email" required>
+                                                <div ng-messages="login_form.email.$error" role="alert">
+                                                    <div ng-message="required" class="my-message">Please enter your email.</div>
+                                                </div>
+                                            </md-input-container>
+                                            <md-input-container class="md-block">
+                                                <label>Password</label>
+                                                <input type="password" name="password" ng-model="login_form_password" placeholder="password" required>
+                                                <div ng-messages="login_form.password.$error" role="alert">
+                                                    <div ng-message="required" class="my-message">Please enter your password.</div>
+                                                </div>
+                                            </md-input-container>
+                                            <md-button ng-disabled="!login_form.$valid" ng-click="login(login_form_email,login_form_password)" class="md-raised md-primary">&nbsp Login &nbsp</md-button>
+                                        </form>
+                                    </md-card-content>
+                                </md-card>
+                            </md-content>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="Sign Up">
+                        <md-content class="md-padding">
+                            <md-content ng-cloak="ng-cloak" class="login_form">
+                                <md-card>
+                                    <md-toolbar>
+                                        <div class="md-toolbar-tools">
+                                            <h2><span>Sign Up</span></h2>
+                                        </div>
+                                    </md-toolbar>
+                                    <md-card-content>
+                                        <form name="sign_up_form">
+                                            <md-input-container class="md-block">
+                                                <label>Name</label>
+                                                <input type="text" name="name" ng-model="sign_up_form_name" placeholder="name" required>
+                                                <div ng-messages="sign_up_form.name.$error" role="alert">
+                                                    <div ng-message="required" class="my-message">Please enter your name.</div>
+                                                </div>
+                                            </md-input-container>
+                                            <md-input-container class="md-block">
+                                                <label>Email</label>
+                                                <input type="text" name="email" ng-model="sign_up_form_email" placeholder="email" required>
+                                                <div ng-messages="sign_up_form.email.$error" role="alert">
+                                                    <div ng-message="required" class="my-message">Please enter your email.</div>
+                                                </div>
+                                            </md-input-container>
+                                            <md-input-container class="md-block">
+                                                <label>Password</label>
+                                                <input type="password" name="password" ng-model="sign_up_form_password" placeholder="password" required>
+                                                <div ng-messages="sign_up_form.password.$error" role="alert">
+                                                    <div ng-message="required" class="my-message">Please enter a password.</div>
+                                                </div>
+                                            </md-input-container>
+                                            <md-button ng-disabled="!sign_up_form.$valid" ng-click="signUp(sign_up_form_name,sign_up_form_email,sign_up_form_password)" class="md-raised md-primary">&nbsp Sign Up &nbsp</md-button>
+                                        </form>
+                                    </md-card-content>
+                                </md-card>
+                            </md-content>
+                        </md-content>
+                    </md-tab>
+                </md-tabs>
+            </md-content>
         </div>
     </div>
+    <div class="right_side col-md-6">
+        <div class="map_background">
+            <div class="enter_button">
+                <md-button class="md-raised md-primary" ng-click="redirectToRoutes()">Take me to the Map</md-button>
+            </div>
+        </div>
+    </div>
+</div>
 </div>

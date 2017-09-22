@@ -1,3 +1,6 @@
+
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
 .login_container{
 	display: flex;
 	flex-direction: row;
@@ -8,9 +11,15 @@
 }
 
 .left_side{
-	align-self: flex-start;
+	/*align-self: flex-start;*/
+	width: 50%;
 }
 
 .right_side{
-	align-self: flex-end;
+	width: 50%;
+}
+
+.enter_button{
+	align-items: center;
+	justify-content: center;
 }
