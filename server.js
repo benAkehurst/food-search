@@ -8,11 +8,13 @@ var https = require("https");
 var request = require('request');
 var router = express.Router();
 var firebase = require("firebase");
+var crypto = require('crypto');
 
 // Uses for getting page elements
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(__dirname));
+// Sets default cors to allow requests from this server
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -52,6 +54,19 @@ var Cuisine = mongoose.model("Cusine", {
     type: String
 });
 
+// Registers user via firebase SDK
+app.post('/registerUser', function(req, res) {
+    var email = req.body.email;
+    var password = req.body.password;
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+        .catch(function(error) {
+            console.log(error.code);
+            console.log(error.message);
+        });
+    res.send(true);
+    // TODO - Salt/Hash Passwords
+});
+
 // API call to google places to get locations list
 app.post('/routeOptions', function(req, res) {
     console.log('Requesting Places from Goolge API');
@@ -83,18 +98,6 @@ app.post('/getPlaceImage', function(req, res) {
     var photoUrl = base + location + sensor + key;
     res.send(photoUrl);
     console.log("Photo Url sent to FE");
-});
-
-// Registers user via firebase SDK
-app.post('/registerUser', function(req, res) {
-    var email = req.body.email;
-    var password = req.body.password;
-    firebase.auth().createUserWithEmailAndPassword(email, password)
-        .catch(function(error) {
-            console.log(error.code);
-            console.log(error.message);
-        });
-    res.send(true);
 });
 
 // CREATE - POST candy to DB
