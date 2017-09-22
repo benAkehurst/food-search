@@ -7,6 +7,7 @@ var http = require("http");
 var https = require("https");
 var request = require('request');
 var router = express.Router();
+var firebase = require("firebase");
 
 // Uses for getting page elements
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -17,6 +18,14 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
+
+// Firebase Config
+var config = {
+    apiKey: "AIzaSyCnvqFYW0ujrj1MZiV9HgyML872zHRdLeI",
+    authDomain: "munch-1505159075646.firebaseapp.com",
+    databaseURL: "https://munch-1505159075646.firebaseio.com"
+};
+firebase.initializeApp(config);
 
 // Connect to DB with mongoose
 mongoose.Promise = global.Promise;
@@ -43,6 +52,7 @@ var Cuisine = mongoose.model("Cusine", {
     type: String
 });
 
+// API call to google places to get locations list
 app.post('/routeOptions', function(req, res) {
     console.log('Requesting Places from Goolge API');
     var base = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
@@ -63,15 +73,27 @@ app.post('/routeOptions', function(req, res) {
     })
 });
 
+// builds string for image for loaction info
 app.post('/getPlaceImage', function(req, res) {
     console.log("Requesting Image url");
-    var base = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference="; 
+    var base = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=";
     var location = req.body.ref;
     var sensor = "&sensor=false";
     var key = "&key=AIzaSyD32rWtceO4-3aY02cxmsYwihYuNEWVIOw";
     var photoUrl = base + location + sensor + key;
     res.send(photoUrl);
     console.log("Photo Url sent to FE");
+});
+
+// Registers user via firebase SDK
+app.post('/registerUser', function(req, res) {
+    var email = req.body.email;
+    var password = req.body.password;
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+        .catch(function(error) {
+            console.log(error.code);
+            console.log(error.message);
+        });
 });
 
 // CREATE - POST candy to DB

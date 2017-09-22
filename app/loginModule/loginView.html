@@ -47,13 +47,6 @@
                                 <md-card-content>
                                     <form name="sign_up_form">
                                         <md-input-container class="md-block">
-                                            <label>Name</label>
-                                            <input type="text" name="name" ng-model="sign_up_form_name" placeholder="name" required>
-                                            <div ng-messages="sign_up_form.name.$error" role="alert">
-                                                <div ng-message="required" class="my-message">Please enter your name.</div>
-                                            </div>
-                                        </md-input-container>
-                                        <md-input-container class="md-block">
                                             <label>Email</label>
                                             <input type="text" name="email" ng-model="sign_up_form_email" placeholder="email" required>
                                             <div ng-messages="sign_up_form.email.$error" role="alert">
@@ -67,7 +60,7 @@
                                                 <div ng-message="required" class="my-message">Please enter a password.</div>
                                             </div>
                                         </md-input-container>
-                                        <md-button ng-disabled="!sign_up_form.$valid" ng-click="signUp(sign_up_form_name,sign_up_form_email,sign_up_form_password)" class="md-raised md-primary">&nbsp Sign Up &nbsp</md-button>
+                                        <md-button ng-disabled="!sign_up_form.$valid" ng-click="signUp(sign_up_form_email,sign_up_form_password)" class="md-raised md-primary">&nbsp Sign Up &nbsp</md-button>
                                     </form>
                                 </md-card-content>
                             </md-card>
