@@ -63,7 +63,11 @@ app.post('/registerUser', function(req, res) {
             console.log(error.code);
             console.log(error.message);
         });
-    res.send(true);
+    var signedUp = {
+        signUpSuccess: true,
+        redirect: true
+    }
+    res.send(signedUp);
     // TODO - Salt/Hash Passwords
 });
 

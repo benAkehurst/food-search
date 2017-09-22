@@ -11,7 +11,7 @@
         $scope.signUpSuccess = false;
 
         $scope.login = function(email, password) {
-        	console.log("Login")
+        	// console.log("Login")
             var data = {
                 email: email,
                 password: password
@@ -21,11 +21,12 @@
                 url: '/login',
                 data: data
             }).then(function success(response) {
-            	console.log(response.data);
-                // if (response.data === true) {
-                //     console.log("loged in UP");
-                //     $location.path('/routes');
-                // }
+            	// console.log(response.data);
+                if (response.data.loggedIn === true) {
+                    // console.log("loged in");
+                    makeToken();
+                    $location.path('/routes');
+                }
             }, function error(response) {
                 console.log(response.statusText);
             });
@@ -43,12 +44,14 @@
                 data: data
             }).then(function success(response) {
                 $scope.sign_up_form.$setPristine();
-                if (response.data === true) {
-                    console.log("Signed UP");
+                if (response.data.signUpSuccess === true) {
+                    // console.log("Signed UP");
+                    makeToken();
                     $scope.signUpSuccess = true;
                     $timeout(function() {
                         $scope.signUpSuccess = false;
-                    }, 5000);
+                        $location.path('/routes');
+                    }, 3000);
                 }
             }, function error(response) {
                 console.log(response.statusText);
@@ -61,5 +64,10 @@
         }
 
     });
+
+    function makeToken(){
+    	localStorage.setItem("loggedIn", "true");
+    	localStorage.setItem("stayLoggedIn", "true");
+    }
 
 })();
