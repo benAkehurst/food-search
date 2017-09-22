@@ -39,6 +39,9 @@
                     <md-content class="md-padding">
                         <md-content ng-cloak="ng-cloak" class="login_form">
                             <md-card>
+                                <md-content class="sucessfull_signup" ng-show="signUpSuccess">
+                                    <h5>SIGNED UP SUCCESSFULLY</h5>
+                                </md-content>
                                 <md-toolbar>
                                     <div class="md-toolbar-tools">
                                         <h2><span>Sign Up</span></h2>
@@ -62,7 +65,6 @@
                                             </div>
                                         </md-input-container>
                                         <md-button ng-disabled="!sign_up_form.$valid" ng-click="signUp(sign_up_form_email,sign_up_form_password)" class="md-raised md-primary">&nbsp Sign Up &nbsp</md-button>
-                                        <md-content ng-show="signUpSuccess">SIGNED UP SUCCESSFULLY</md-content>
                                     </form>
                                 </md-card-content>
                             </md-card>

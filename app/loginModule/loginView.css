@@ -43,3 +43,8 @@
     align-items: center;
     justify-content: center;
 }
+
+.sucessfull_signup{
+    color: green;
+    text-align: center;
+}
