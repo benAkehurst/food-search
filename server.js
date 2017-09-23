@@ -39,25 +39,22 @@ mongoose.connect("mongodb://localhost:27017/MunchDB", function(err) {
     }
 });
 
-// Mongoose Schema - New Candy
+// Mongoose Schemas
+var User = mongoose.model("User",{
+    email: String
+});
 var Route = mongoose.model("Route", {
-    city: String,
-    cusineOne: String,
-    cusineTwo: String,
-    cusineThree: String,
     locationOne: Object,
     locationTwo: Object,
     locationThree: Object
-});
-
-var Cuisine = mongoose.model("Cusine", {
-    type: String
 });
 
 // Registers user via firebase SDK
 app.post('/registerUser', function(req, res) {
     var email = req.body.email;
     var password = req.body.password;
+    var newUser = new User({email:req.body.email});
+    newUser.save();
     firebase.auth().createUserWithEmailAndPassword(email, password)
         .catch(function(error) {
             console.log(error.code);
