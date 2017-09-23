@@ -6,12 +6,12 @@
 
     var loginModule = angular.module("loginModule", []);
 
-    loginModule.controller("LoginController", function($http, $route, $scope, $rootScope, $location,$timeout) {
+    loginModule.controller("LoginController", function($http, $route, $scope, $rootScope, $location, $timeout) {
 
         $scope.signUpSuccess = false;
 
         $scope.login = function(email, password) {
-        	// console.log("Login")
+            // console.log("Login")
             var data = {
                 email: email,
                 password: password
@@ -21,10 +21,12 @@
                 url: '/login',
                 data: data
             }).then(function success(response) {
-            	// console.log(response.data);
+                // console.log(response.data);
+                var userEmail = data.email;
+                // console.log(userEmail);
                 if (response.data.loggedIn === true) {
                     // console.log("loged in");
-                    makeToken();
+                    makeToken(userEmail);
                     $location.path('/routes');
                 }
             }, function error(response) {
@@ -65,9 +67,11 @@
 
     });
 
-    function makeToken(){
-    	localStorage.setItem("loggedIn", "true");
-    	localStorage.setItem("stayLoggedIn", "true");
+    function makeToken(email) {
+    	var userEmail = email;
+        sessionStorage.setItem("loggedIn", "true");
+        localStorage.setItem("stayLoggedIn", "true");
+        localStorage.setItem("email", userEmail);
     }
 
 })();
