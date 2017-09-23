@@ -58,12 +58,25 @@
                 })
 
                 .when("/profile", {
+                    resolve: {
+                        "check": function($location) {
+                            if (sessionStorage.loggedIn) {
+                                $location.path("/profile");
+                            }
+                            else if (localStorage.stayLoggedIn) {
+                                $location.path("/profile");
+                            }
+                            else{
+                                $location.path("/login");
+                            }
+                        }
+                    },
                     controller: "ProfileController",
                     templateUrl: "app/profileModule/profileView.html"
                 })
 
                 .otherwise({
-                    redirectTo: "/routes"
+                    redirectTo: "/login"
                 });
 
         })
