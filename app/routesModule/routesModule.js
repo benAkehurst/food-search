@@ -28,6 +28,14 @@
         }; // covent garden
         $scope.loadingIcon = false;
         $scope.hideRoutes = false;
+        $scope.loggedIn = false;
+
+        var checkLoggedIn = function() {
+            var sessionInfo = getSessionData();
+            if (sessionInfo.loggedIn) {
+                $scope.loggedIn = true;
+            }
+        }
 
         var getUserLocation = function() {
             navigator.geolocation.getCurrentPosition(
@@ -195,12 +203,19 @@
             $scope.detialsRating = location.rating;
         }
 
-        $scope.reloadPage = function(){
-            $route.reload();
+        $scope.saveRoute = function(loc1, loc2, loc3) {
+            var sessionInfo = getSessionData();
+            var route = {
+                loc1: loc1,
+                loc2: loc2,
+                loc3: loc3
+            }
+            console.log(sessionInfo, route);
         }
 
         getUserLocation();
         // userCity();
+        checkLoggedIn();
 
     });
 
@@ -330,6 +345,16 @@
         }
         // console.log(array);
         return array;
+    }
+
+    function getSessionData() {
+        var sessionLoggedIn = sessionStorage.getItem("loggedIn");
+        var sessionEmail = sessionStorage.getItem("email");
+        var sessionData = {
+            loggedIn: sessionLoggedIn,
+            email: sessionEmail
+        }
+        return sessionData;
     }
 
 })();

@@ -37,7 +37,8 @@
                 </md-card>
                 <div class="routes_button_container">
                     <md-button class="md-raised shuffle_choices_button" ng-click="shuffle()">Shuffle Choices</md-button>
-                    <md-button class="md-raised md-accent pick_route_button" ng-click="makeMap(closetToMe[0],closetToMe[1],closetToMe[2])">Show me this route</md-button>
+                    <md-button class="md-raised md-primary pick_route_button" ng-click="makeMap(closetToMe[0],closetToMe[1],closetToMe[2])">Show me this route</md-button>
+                    <md-button class="md-raised md-accent save_route_button" ng-show="loggedIn" ng-click="saveRoute(closetToMe[0],closetToMe[1],closetToMe[2])">Save this route</md-button>
                 </div>
             	<div class="location_details_container">
                 	<h3>{{detialsName}}</h3>
@@ -52,9 +53,7 @@
                 <div id="map"></div>
             </section>
             <section>
-                <div class="save_route_container">
-                    <md-button class="md-raised save_route_button" ng-click="">Save This Route</md-button>
-                </div>
+                
             </section>
         </div>
     </div>

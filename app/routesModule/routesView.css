@@ -42,6 +42,11 @@ h1 {
     flex: 0 1 auto;
     align-self: center;
 }
+.save_route_button{
+    order: 1;
+    flex: 1 1 auto;
+    align-self: center;
+}
 
 .choice_card {
     margin: 0 0 20px 0;
