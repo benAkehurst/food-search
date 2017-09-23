@@ -1,4 +1,12 @@
-h1 {
-	color: orange;
+.headerItems {
+	display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+.pageTitle{
 	font-family: 'Roboto Mono', monospace;
+	align-self: flex-start;
+}
+.logoutButton{
+	margin-left: auto;
 }
