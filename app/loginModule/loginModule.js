@@ -49,7 +49,7 @@
                 $scope.sign_up_form.$setPristine();
                 if (response.data.signUpSuccess === true) {
                     // console.log("Signed UP");
-                    makeToken();
+                    makeToken(data.email);
                     $scope.signUpSuccess = true;
                     $timeout(function() {
                         $scope.signUpSuccess = false;
