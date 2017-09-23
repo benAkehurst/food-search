@@ -27,6 +27,7 @@
                 if (response.data.loggedIn === true) {
                     // console.log("loged in");
                     makeToken(userEmail);
+                    $rootScope.loggedIn = true;
                     $location.path('/routes');
                 }
             }, function error(response) {
@@ -70,8 +71,7 @@
     function makeToken(email) {
     	var userEmail = email;
         sessionStorage.setItem("loggedIn", "true");
-        localStorage.setItem("stayLoggedIn", "true");
-        localStorage.setItem("email", userEmail);
+        sessionStorage.setItem("email", userEmail);
     }
 
 })();
