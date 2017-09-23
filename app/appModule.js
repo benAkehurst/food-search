@@ -7,7 +7,8 @@
         "loginModule",
         "routesModule",
         "exploreModule",
-        "profileModule"
+        "profileModule",
+        "navBarModule"
     ]);
 
 
@@ -62,11 +63,9 @@
                         "check": function($location) {
                             if (sessionStorage.loggedIn) {
                                 $location.path("/profile");
-                            }
-                            else if (localStorage.stayLoggedIn) {
+                            } else if (localStorage.stayLoggedIn) {
                                 $location.path("/profile");
-                            }
-                            else{
+                            } else {
                                 $location.path("/login");
                             }
                         }
@@ -79,6 +78,13 @@
                     redirectTo: "/login"
                 });
 
+        })
+        
+        .directive('navbar', function() {
+            return {
+                templateUrl: 'app/directives/navBar.html',
+                controller: 'NavBarController'
+            };
         })
 
         .config(function($mdThemingProvider) {
