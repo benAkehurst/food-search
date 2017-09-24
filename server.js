@@ -40,7 +40,7 @@ mongoose.connect("mongodb://localhost:27017/MunchDB", function(err) {
 });
 
 // Mongoose Schemas
-var User = mongoose.model("User",{
+var User = mongoose.model("User", {
     email: String
 });
 var Route = mongoose.model("Route", {
@@ -53,18 +53,25 @@ var Route = mongoose.model("Route", {
 app.post('/registerUser', function(req, res) {
     var email = req.body.email;
     var password = req.body.password;
-    var newUser = new User({email:req.body.email});
+    var newUser = new User({ email: req.body.email });
     newUser.save();
     firebase.auth().createUserWithEmailAndPassword(email, password)
-        .catch(function(error) {
-            console.log(error.code);
-            console.log(error.message);
+        .then(function(user) {
+            console.log('uid', user.uid);
+            var signedUp = {
+                signUpSuccess: true,
+                redirect: true,
+            }
+            res.send(signedUp);
+            //Here if you want you can sign in the user
+        }).catch(function(error) {
+            //Handle error
         });
-    var signedUp = {
-        signUpSuccess: true,
-        redirect: true
-    }
-    res.send(signedUp);
+
+    // .catch(function(error) {
+    //     console.log(error.code);
+    //     console.log(error.message);
+    // });
     // TODO - Salt/Hash Passwords
 });
 
@@ -72,15 +79,18 @@ app.post('/login', function(req, res) {
     var email = req.body.email;
     var password = req.body.password;
     firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(function(user) {
+            console.log('uid', user.uid);
+            var loggedInData = {
+                loggedIn: true,
+                userEmail: email
+            }
+            res.send(loggedInData);
+        })
         .catch(function(error) {
             console.log(error.code);
             console.log(error.message);
         });
-    var loggedInData = {
-        loggedIn: true,
-        userEmail: email
-    }
-    res.send(loggedInData);
 });
 
 // API call to google places to get locations list
