@@ -23,7 +23,7 @@
                                         </md-input-container>
                                         <md-input-container class="md-block">
                                             <label>Password</label>
-                                            <input type="password" name="password" ng-model="login_form_password" placeholder="password" required  minlength="6">
+                                            <input type="password" name="password" ng-model="login_form_password" placeholder="password" required minlength="6">
                                             <div ng-messages="login_form.password.$error" role="alert">
                                                 <div ng-message="required" class="my-message">Please enter your password.</div>
                                                 <div ng-message="required" class="my-message">Your password needs to be a minimum of 6 characters.</div>
@@ -51,6 +51,13 @@
                                 <md-card-content>
                                     <form name="sign_up_form">
                                         <md-input-container class="md-block">
+                                            <label>Name</label>
+                                            <input type="text" name="name" ng-model="sign_up_form_name" placeholder="Name" required>
+                                            <div ng-messages="sign_up_form.name.$error" role="alert">
+                                                <div ng-message="required" class="my-message">Please enter your name.</div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container class="md-block">
                                             <label>Email</label>
                                             <input type="text" name="email" ng-model="sign_up_form_email" placeholder="email" required pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?">
                                             <div ng-messages="sign_up_form.email.$error" role="alert">
@@ -64,7 +71,7 @@
                                                 <div ng-message="required" class="my-message">Your password needs to be a minimum of 6 characters.</div>
                                             </div>
                                         </md-input-container>
-                                        <md-button ng-disabled="!sign_up_form.$valid" ng-click="signUp(sign_up_form_email,sign_up_form_password)" class="md-raised md-primary">&nbsp Sign Up &nbsp</md-button>
+                                        <md-button ng-disabled="!sign_up_form.$valid" ng-click="signUp(sign_up_form_name, sign_up_form_email,sign_up_form_password)" class="md-raised md-primary">&nbsp Sign Up &nbsp</md-button>
                                     </form>
                                 </md-card-content>
                             </md-card>

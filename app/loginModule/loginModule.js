@@ -36,9 +36,10 @@
             });
         }
 
-        $scope.signUp = function(email, password) {
+        $scope.signUp = function(name, email, password) {
             // console.log("signup Called");
             var data = {
+                name: name,
                 email: email,
                 password: password
             };
@@ -48,9 +49,10 @@
                 data: data
             }).then(function success(response) {
                 $scope.sign_up_form.$setPristine();
+                var uid = response.data.uid;
                 if (response.data.signUpSuccess === true) {
                     // console.log("Signed UP");
-                    makeToken(data.email, response.signedUp.uid);
+                    makeToken(data.email, uid);
                     $scope.signUpSuccess = true;
                     $timeout(function() {
                         $scope.signUpSuccess = false;
@@ -60,7 +62,6 @@
             }, function error(response) {
                 console.log(response.statusText);
             });
-
         }
 
         $scope.redirectToRoutes = function() {
@@ -69,9 +70,9 @@
 
     });
 
-    function makeToken(email,uid) {
+    function makeToken(email, uid) {
         var userEmail = email;
-    	var userUid = uid;
+        var userUid = uid;
         sessionStorage.setItem("loggedIn", "true");
         sessionStorage.setItem("email", userEmail);
         sessionStorage.setItem("uid", userUid);
