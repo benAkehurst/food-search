@@ -82,7 +82,8 @@ app.post('/login', function(req, res) {
             console.log('uid', user.uid);
             var loggedInData = {
                 loggedIn: true,
-                userEmail: email
+                userEmail: email,
+                userUid: user.uid
             }
             res.send(loggedInData);
         })

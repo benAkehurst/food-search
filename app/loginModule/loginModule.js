@@ -22,11 +22,12 @@
                 data: data
             }).then(function success(response) {
                 // console.log(response.data);
+                var uid = response.data.userUid;
                 var userEmail = data.email;
                 // console.log(userEmail);
                 if (response.data.loggedIn === true) {
                     // console.log("loged in");
-                    makeToken(data.email, response.signedUp.uid);
+                    makeToken(userEmail, uid);
                     $rootScope.loggedIn = true;
                     $location.path('/routes');
                 }
