@@ -41,7 +41,8 @@ mongoose.connect("mongodb://localhost:27017/MunchDB", function(err) {
 
 // Mongoose Schemas
 var User = mongoose.model("User", {
-    email: String
+    email: String,
+    uid: String
 });
 var Route = mongoose.model("Route", {
     locationOne: Object,
@@ -53,8 +54,6 @@ var Route = mongoose.model("Route", {
 app.post('/registerUser', function(req, res) {
     var email = req.body.email;
     var password = req.body.password;
-    var newUser = new User({ email: req.body.email });
-    newUser.save();
     firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(function(user) {
             // console.log('uid', user.uid);
@@ -63,6 +62,8 @@ app.post('/registerUser', function(req, res) {
                 signUpSuccess: true,
                 redirect: true,
             }
+            var newUser = new User({ email: req.body.email, uid: user.uid });
+            newUser.save();
             res.send(signedUp);
             //Here if you want you can sign in the user
         }).catch(function(error) {
