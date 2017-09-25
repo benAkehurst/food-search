@@ -57,21 +57,19 @@ app.post('/registerUser', function(req, res) {
     newUser.save();
     firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(function(user) {
-            console.log('uid', user.uid);
+            // console.log('uid', user.uid);
             var signedUp = {
+                uid: user.uid,
                 signUpSuccess: true,
                 redirect: true,
             }
             res.send(signedUp);
             //Here if you want you can sign in the user
         }).catch(function(error) {
-            //Handle error
+            console.log(error.code);
+            console.log(error.message);
         });
 
-    // .catch(function(error) {
-    //     console.log(error.code);
-    //     console.log(error.message);
-    // });
     // TODO - Salt/Hash Passwords
 });
 

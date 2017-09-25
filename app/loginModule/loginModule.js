@@ -26,7 +26,7 @@
                 // console.log(userEmail);
                 if (response.data.loggedIn === true) {
                     // console.log("loged in");
-                    makeToken(userEmail);
+                    makeToken(data.email, response.signedUp.uid);
                     $rootScope.loggedIn = true;
                     $location.path('/routes');
                 }
@@ -49,7 +49,7 @@
                 $scope.sign_up_form.$setPristine();
                 if (response.data.signUpSuccess === true) {
                     // console.log("Signed UP");
-                    makeToken(data.email);
+                    makeToken(data.email, response.signedUp.uid);
                     $scope.signUpSuccess = true;
                     $timeout(function() {
                         $scope.signUpSuccess = false;
@@ -68,10 +68,12 @@
 
     });
 
-    function makeToken(email) {
-    	var userEmail = email;
+    function makeToken(email,uid) {
+        var userEmail = email;
+    	var userUid = uid;
         sessionStorage.setItem("loggedIn", "true");
         sessionStorage.setItem("email", userEmail);
+        sessionStorage.setItem("uid", userUid);
     }
 
 })();
