@@ -18,6 +18,19 @@
             }
         }
 
+        $scope.loggedIn = false;
+        var loggedIn = function() {
+            var staus = getSessionStorageItems();
+            if (status = true){
+                $scope.loggedIn = true;
+                $scope.loggedInMessage = "logged in";
+            }
+        }
+
+        $timeout(function() {
+            loggedIn();
+        }, 7000);
+
         checkLoggedIn();
 
         $scope.logout = function() {

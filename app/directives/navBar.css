@@ -1,0 +1,12 @@
+.loggedIn{
+	width: 10px;
+    height: 5px;
+    background-color: #2de72d;
+    border-radius: 25px;
+    margin-left: 43%;
+    margin-top: -5px;
+}
+
+.loggedInMessage{
+	color: white;
+}

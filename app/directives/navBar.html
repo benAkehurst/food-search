@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="app/directives/navBar.css">
 <div layout="column" layout-fill ng-controller="NavBarController">
     <md-toolbar>
         <div class="md-toolbar-tools">
@@ -9,7 +10,9 @@
                 <a ng-href="#!/explore">explore</a>
             </md-button>
             <md-button>
-                <a ng-href="#!/profile">profile</a>
+                <a ng-href="#!/profile">profile
+                    <div class="loggedIn" ng-show="loggedIn"></div>
+                </a>
             </md-button>
         </div>
     </md-toolbar>
