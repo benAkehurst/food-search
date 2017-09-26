@@ -6,26 +6,26 @@
 
     routesModule.controller("RoutesController", function($filter, $http, $scope, $rootScope, $location) {
 
-        var userCity = function() {
-            $http({
-                method: 'GET',
-                url: 'https://ipinfo.io'
-            }).then(function successCallback(response) {
-                $scope.city = response.data.city;
-            }, function errorCallback(response) {
-                console.log(response);
-            });
-        };
+        // var userCity = function() {
+        //     $http({
+        //         method: 'GET',
+        //         url: 'https://ipinfo.io'
+        //     }).then(function successCallback(response) {
+        //         $scope.city = response.data.city;
+        //     }, function errorCallback(response) {
+        //         console.log(response);
+        //     });
+        // };
 
         var shuffleChoice = [];
         // var userLocation = {}; // comp loc TURNED OFF FOR TESTING
-        var userLocation = {
-            latitude: 32.079542,
-            longitude: 34.779720}; // Tel Aviv // TURNED OFF FOR TESTING
         // var userLocation = {
-        //     latitude: 51.513044,
-        //     longitude: -0.124476
-        // }; // covent garden
+        //     latitude: 32.079542,
+        //     longitude: 34.779720}; // Tel Aviv // TURNED OFF FOR TESTING
+        var userLocation = {
+            latitude: 51.513044,
+            longitude: -0.124476
+        }; // covent garden
         $scope.loadingIcon = false;
         $scope.hideRoutes = false;
         $scope.loggedIn = false;
@@ -214,7 +214,7 @@
                 uid: sessionInfo.uid,
                 routes: route
             }
-            // console.log(data);
+            console.log(data);
             $http({
                 method: "PATCH",
                 url: '/saveRoute/' + data.uid,
@@ -229,7 +229,7 @@
         }
 
         getUserLocation();
-        userCity();
+        // userCity();
         checkLoggedIn();
 
     });

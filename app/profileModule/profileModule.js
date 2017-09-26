@@ -19,7 +19,7 @@
                 method:"GET",
                 url:"/getallRoutes/" + uid
             }).then(function success(response){
-                // console.log(response.data);
+                console.log(response.data);
                 var savedRoutes = response.data.routes;
                 // console.log(savedRoutes);
                 $scope.savedRoutes = savedRoutes;
