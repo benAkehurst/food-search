@@ -40,11 +40,11 @@
                     <md-button class="md-raised md-primary pick_route_button" ng-click="makeMap(closetToMe[0],closetToMe[1],closetToMe[2])">Show me this route</md-button>
                     <md-button class="md-raised md-accent save_route_button" ng-show="loggedIn" ng-click="saveRoute(closetToMe[0],closetToMe[1],closetToMe[2])">Save this route</md-button>
                 </div>
-            	<div class="location_details_container">
-                	<h3>{{detialsName}}</h3>
-                	<h4>Marker: {{marker}}</h4>
-                	<h4>Rating: {{detialsRating}}</h4>
-                	<img ng-src="{{detailsImage}}" alt="">
+                <div class="location_details_container">
+                    <h3>{{detialsName}}</h3>
+                    <h4>Marker: {{marker}}</h4>
+                    <h4>Rating: {{detialsRating}}</h4>
+                    <img ng-src="{{detailsImage}}" alt="">
                 </div>
             </section>
         </div>
@@ -53,7 +53,6 @@
                 <div id="map"></div>
             </section>
             <section>
-                
             </section>
         </div>
     </div>
