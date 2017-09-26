@@ -19,7 +19,7 @@
                 method:"GET",
                 url:"/getallRoutes/" + uid
             }).then(function success(response){
-                console.log(response.data);
+                // console.log(response.data);
                 var savedRoutes = response.data.routes;
                 // console.log(savedRoutes);
                 $scope.savedRoutes = savedRoutes;
@@ -32,7 +32,18 @@
         getSavedRoutes();
 
         $scope.deleteRoute = function(route){
-            console.log(route);
+            // console.log(route);
+            var userInfo = getSessionItems();
+            var uid = userInfo.userUid;
+            var route = route._id;
+            $http({
+                method:"DELETE",
+                url:"/deleteRoute/" + uid + "/" + route
+            }).then(function success(response){
+                console.log(response.data);
+            }, function error(response){
+                console.log(response.statusText);
+            });
         }
 
         $scope.logout = function() {

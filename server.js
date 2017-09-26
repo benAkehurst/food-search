@@ -162,17 +162,39 @@ app.get("/userInfo/:email", function(request, response) {
 });
 // Get all saved routes from DB for profile
 app.get("/getallRoutes/:id", function(request, response) {
-    console.log(request.params.id);
+    // console.log(request.params.id);
     User.findOne({
         uid: request.params.id,
     }).exec(function(err, user) {
         if (err) {
             console.log("Error: " + err);
-        } else{
+        } else {
             // console.log(user);
             response.send(user);
         }
     })
+});
+
+// DELETE - delete specific candy from the DB
+app.delete("/deleteRoute/:uid/:_id", function(request, response) {
+    // console.log("ID" + request.params.id);
+    User.findOne({ id: request.body.id })
+        .exec(function(err, user) {
+            if (err) {
+                console.log("Error" + " " + err)
+            } else {
+                if (user) {
+                    console.log("User " + user);
+                    for (var i = 0; i < user.routes.length; i++) {
+                        if (user.routes[i]._id == request.params._id) {
+                            user.routes.splice(i, 1)
+                            user.save();
+                        }
+                    }
+                    response.send(user);
+                }
+            }
+        })
 });
 
 
@@ -194,18 +216,6 @@ app.put("/editRoute/:_id", function(request, response) {
             } else {
                 console.log("There was an issue editing the route. The error was: " + " " + err.status);
             }
-        }
-    })
-});
-
-// DELETE - delete specific candy from the DB
-app.delete("/deleteRoute/:_id", function(request, response) {
-    Route.remove({ _id: request.params._id }).exec(function(err, deletedRoute) {
-        if (err) {
-            console.log("Error" + " " + err)
-        } else {
-            response.status(204);
-            response.send("Route has been removed from the DB");
         }
     })
 });
