@@ -1,12 +1,22 @@
 .headerItems {
-	display: flex;
+    display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
 }
-.pageTitle{
-	font-family: 'Roboto Mono', monospace;
-	align-self: flex-start;
+
+.pageTitle {
+    font-family: 'Roboto Mono', monospace;
+    align-self: flex-start;
 }
-.logoutButton{
-	margin-left: auto;
+
+.logoutButton {
+    margin-left: auto;
+}
+
+.delete_icon {
+    opacity: 0;
+}
+
+.delete_icon:hover {
+    opacity: 1
 }

@@ -13,28 +13,36 @@
 </div>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-4">
-            <md-card class="route_card" ng-repeat="route in savedRoutes track by $index">
-                <md-card-actions layout="row" layout-align="start center">
-                    <md-card-title class="">
-                        <md-card-title-text>
-                            <h4>{{route.loc1.name}}</h4>
-                        </md-card-title-text>
-                    </md-card-title>
-                    <div><i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i></div>
-                    <md-card-title class="">
-                        <md-card-title-text>
-                            <h4>{{route.loc2.name}}</h4>
-                        </md-card-title-text>
-                    </md-card-title>
-                    <div><i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i></div>
-                    <md-card-title class="">
-                        <md-card-title-text>
-                            <h4>{{route.loc3.name}}</h4>
-                        </md-card-title-text>
-                    </md-card-title>
-            </md-card>
+        <div class="col-md-5">
+            <div class="saved_routes_container">
+                <h3>Saved Routes</h3>
+                <div class="card_contanier">
+                    <md-card class="route_card" ng-repeat="route in savedRoutes track by $index">
+                        <md-card-actions layout="row" layout-align="start center">
+                            <md-card-title class="">
+                                <md-card-title-text>
+                                    <h4>{{route.loc1.name}}</h4>
+                                </md-card-title-text>
+                            </md-card-title>
+                            <div><i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i></div>
+                            <md-card-title class="">
+                                <md-card-title-text>
+                                    <h4>{{route.loc2.name}}</h4>
+                                </md-card-title-text>
+                            </md-card-title>
+                            <div><i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i></div>
+                            <md-card-title class="">
+                                <md-card-title-text>
+                                    <h4>{{route.loc3.name}}</h4>
+                                </md-card-title-text>
+                            </md-card-title>
+                            <div class="delete_icon" ng-click="deleteRoute(this.route)">
+                                <i class="fa fa-trash"></i>
+                            </div>
+                    </md-card>
+                </div>
+            </div>
         </div>
-        <div class="col-md-8">Map</div>
+        <div class="col-md-7">Map</div>
     </div>
 </div>

@@ -14,14 +14,14 @@
         var getSavedRoutes = function(){
             var userInfo = getSessionItems();
             var uid = userInfo.userUid;
-            console.log(uid);
+            // console.log(uid);
             $http({
                 method:"GET",
                 url:"/getallRoutes/" + uid
             }).then(function success(response){
-                console.log(response.data);
+                // console.log(response.data);
                 var savedRoutes = response.data.routes;
-                console.log(savedRoutes);
+                // console.log(savedRoutes);
                 $scope.savedRoutes = savedRoutes;
             }, function error(response){
                 console.log(response.statusText);
@@ -30,6 +30,10 @@
 
         userDetail();
         getSavedRoutes();
+
+        $scope.deleteRoute = function(route){
+            console.log(route);
+        }
 
         $scope.logout = function() {
             sessionStorage.clear();
