@@ -44,11 +44,14 @@ var User = mongoose.model("User", {
     name: String,
     email: String,
     uid: String
-});
-var Route = mongoose.model("Route", {
-    locationOne: Object,
-    locationTwo: Object,
-    locationThree: Object
+    routes:[{
+        loc1:Object,
+        loc2:Object,
+        loc3:Object
+    }],
+    likedLocation:[{
+        location:Object
+    }]
 });
 
 // Registers user via firebase SDK
