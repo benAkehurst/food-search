@@ -58,7 +58,7 @@ app.post('/registerUser', function(req, res) {
     var password = req.body.password;
     firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(function(user) {
-            console.log('uid', user.uid);
+            // console.log('uid', user.uid);
             var signedUp = {
                 uid: user.uid,
                 signUpSuccess: true,
@@ -81,7 +81,7 @@ app.post('/login', function(req, res) {
     var password = req.body.password;
     firebase.auth().signInWithEmailAndPassword(email, password)
         .then(function(user) {
-            console.log('uid', user.uid);
+            // console.log('uid', user.uid);
             var loggedInData = {
                 loggedIn: true,
                 userEmail: email,
@@ -134,6 +134,19 @@ app.post("/saveRoute", function(request, response) {
     newRoute.save();
     newRoute.status(201);
     newRoute.send(newRoute);
+});
+
+app.get("/userInfo/:email",function(request,response){
+    User.findOne({email : request.params.email}).exec(function(err,user){
+        if(err){
+            console.log("Error: " + " " + err);
+        }
+        else{
+            console.log(user);
+            response.send(user);
+            console.log("Returned user to login");
+        }
+    })
 });
 
 // READ - GET all candy from DB

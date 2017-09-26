@@ -11,11 +11,26 @@
         $scope.signUpSuccess = false;
 
         $scope.login = function(email, password) {
-            // console.log("Login")
+            // console.log("Login");
             var data = {
                 email: email,
                 password: password
             };
+            var userName = '';
+            // console.log(userName);
+            
+            $http({
+                method:"GET",
+                url:"/userInfo/" + data.email
+            }).then(function success(response){
+                var userName = response.data;
+                console.log(response.data);
+                // var userName = response.data.name;
+                console.log(userName);
+            }, function error(response){
+                console.log(response.statusText);
+            });
+            
             $http({
                 method: "POST",
                 url: '/login',
@@ -27,7 +42,7 @@
                 // console.log(userEmail);
                 if (response.data.loggedIn === true) {
                     // console.log("loged in");
-                    makeToken(userEmail, uid);
+                    makeToken(userName, userEmail, uid);
                     $rootScope.loggedIn = true;
                     $location.path('/routes');
                 }
@@ -70,10 +85,12 @@
 
     });
 
-    function makeToken(email, uid) {
+    function makeToken(name, email, uid) {
+        var userName = name;
         var userEmail = email;
         var userUid = uid;
         sessionStorage.setItem("loggedIn", "true");
+        sessionStorage.setItem("name", userName);
         sessionStorage.setItem("email", userEmail);
         sessionStorage.setItem("uid", userUid);
     }
