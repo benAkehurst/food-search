@@ -44,11 +44,11 @@ var User = mongoose.model("User", {
     name: String,
     email: String,
     uid: String,
-    routes: [{
+    routes: {
         loc1: Object,
         loc2: Object,
         loc3: Object
-    }],
+    },
     likedLocation: [{
         location: Object
     }]
@@ -161,13 +161,15 @@ app.get("/userInfo/:email", function(request, response) {
     })
 });
 // Get all saved routes from DB for profile
-app.get("/getallRoutes/:_id", function(request, response) {
+app.get("/getallRoutes/:id", function(request, response) {
+    console.log(request.params.id);
     User.findOne({
-        uid: request.body.uid,
+        uid: request.params.id,
     }).exec(function(err, user) {
         if (err) {
-            console.log("Error: " + err)
+            console.log("Error: " + err);
         } else{
+            // console.log(user);
             response.send(user);
         }
     })

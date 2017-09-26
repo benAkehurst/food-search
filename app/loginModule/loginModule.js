@@ -85,7 +85,6 @@
     });
 
     function makeToken(email, uid) {
-        var userName = name;
         var userEmail = email;
         var userUid = uid;
         sessionStorage.setItem("loggedIn", "true");

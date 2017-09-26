@@ -14,11 +14,13 @@
         var getSavedRoutes = function(){
             var userInfo = getSessionItems();
             var uid = userInfo.userUid;
+            console.log(uid);
             $http({
                 method:"GET",
                 url:"/getallRoutes/" + uid
             }).then(function success(response){
-                var savedRoutes = response.data[0].routes;
+                console.log(response.data);
+                var savedRoutes = response.data.routes;
                 console.log(savedRoutes);
                 $scope.savedRoutes = savedRoutes;
             }, function error(response){

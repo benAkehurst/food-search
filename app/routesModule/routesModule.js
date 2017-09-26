@@ -6,26 +6,26 @@
 
     routesModule.controller("RoutesController", function($filter, $http, $scope, $rootScope, $location) {
 
-        // var userCity = function() {
-        //     $http({
-        //         method: 'GET',
-        //         url: 'https://ipinfo.io'
-        //     }).then(function successCallback(response) {
-        //         $scope.city = response.data.city;
-        //     }, function errorCallback(response) {
-        //         console.log(response);
-        //     });
-        // };
+        var userCity = function() {
+            $http({
+                method: 'GET',
+                url: 'https://ipinfo.io'
+            }).then(function successCallback(response) {
+                $scope.city = response.data.city;
+            }, function errorCallback(response) {
+                console.log(response);
+            });
+        };
 
         var shuffleChoice = [];
         // var userLocation = {}; // comp loc TURNED OFF FOR TESTING
-        // var userLocation = {
-        //     latitude: 32.079542,
-        //     longitude: 34.779720}; // Tel Aviv // TURNED OFF FOR TESTING
         var userLocation = {
-            latitude: 51.513044,
-            longitude: -0.124476
-        }; // covent garden
+            latitude: 32.079542,
+            longitude: 34.779720}; // Tel Aviv // TURNED OFF FOR TESTING
+        // var userLocation = {
+        //     latitude: 51.513044,
+        //     longitude: -0.124476
+        // }; // covent garden
         $scope.loadingIcon = false;
         $scope.hideRoutes = false;
         $scope.loggedIn = false;
@@ -73,8 +73,8 @@
 
         var daySearch = function(locObj) {
             // var longLat = locObj.latitude + "," + locObj.longitude; //comp loc TURNED OFF FOR TESTING
-            // var longLat = "32.079542,34.779720"; //tel aviv
-            var longLat = "51.510405,-0.131515"; //london TURNED OFF FOR TESTING
+            var longLat = "32.079542,34.779720"; //tel aviv
+            // var longLat = "51.510405,-0.131515"; //london TURNED OFF FOR TESTING
             var radius = "&radius=1500";
             // var type = "&type=cafe&type=bar"; // Bar & Cafe
             var type = "&type=resturant"; // Bar & Cafe
@@ -229,7 +229,7 @@
         }
 
         getUserLocation();
-        // userCity();
+        userCity();
         checkLoggedIn();
 
     });
