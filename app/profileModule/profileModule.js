@@ -21,8 +21,8 @@
     });
 
     function getSessionItems() {
-        var sessionEmail = sessionStorage.getItem("email");
-        return sessionEmail;
+        var sessionName = sessionStorage.getItem("name");
+        return sessionName;
     }
 
 })();
