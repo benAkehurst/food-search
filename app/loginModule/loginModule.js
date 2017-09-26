@@ -66,7 +66,7 @@
                 var uid = response.data.uid;
                 if (response.data.signUpSuccess === true) {
                     // console.log("Signed UP");
-                    makeToken(data.email, uid);
+                    makeToken(data.name, data.email, uid);
                     $scope.signUpSuccess = true;
                     $timeout(function() {
                         $scope.signUpSuccess = false;
@@ -84,10 +84,12 @@
 
     });
 
-    function makeToken(email, uid) {
+    function makeToken(name,email, uid) {
+        var userName = name;
         var userEmail = email;
         var userUid = uid;
         sessionStorage.setItem("loggedIn", "true");
+        sessionStorage.setItem("name", userName);
         sessionStorage.setItem("email", userEmail);
         sessionStorage.setItem("uid", userUid);
     }

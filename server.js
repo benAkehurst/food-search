@@ -43,7 +43,7 @@ mongoose.connect("mongodb://localhost:27017/MunchDB", function(err) {
 var User = mongoose.model("User", {
     name: String,
     email: String,
-    uid: String
+    uid: String,
     routes:[{
         loc1:Object,
         loc2:Object,
@@ -145,7 +145,7 @@ app.get("/userInfo/:email",function(request,response){
             console.log("Error: " + " " + err);
         }
         else{
-            console.log(user);
+            // console.log(user);
             response.send(user);
             console.log("Returned user to login");
         }
