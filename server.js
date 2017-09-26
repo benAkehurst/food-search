@@ -44,13 +44,13 @@ var User = mongoose.model("User", {
     name: String,
     email: String,
     uid: String,
-    routes:[{
-        loc1:Object,
-        loc2:Object,
-        loc3:Object
+    routes: [{
+        loc1: Object,
+        loc2: Object,
+        loc3: Object
     }],
-    likedLocation:[{
-        location:Object
+    likedLocation: [{
+        location: Object
     }]
 });
 
@@ -67,7 +67,7 @@ app.post('/registerUser', function(req, res) {
                 signUpSuccess: true,
                 redirect: true,
             }
-            var newUser = new User({ name: req.body.name, email: req.body.email, uid: user.uid});
+            var newUser = new User({ name: req.body.name, email: req.body.email, uid: user.uid });
             newUser.save();
             res.send(signedUp);
             //Here if you want you can sign in the user
@@ -132,19 +132,31 @@ app.post('/getPlaceImage', function(req, res) {
 });
 
 // CREATE - POST candy to DB
-app.post("/saveRoute", function(request, response) {
-    var newRoute = new Route(request.body);
-    newRoute.save();
-    newRoute.status(201);
-    newRoute.send(newRoute);
+app.patch("/saveRoute/:id", function(request, response) {
+    console.log(request.body.uid);
+    User.findOne({
+        uid: request.body.uid,
+    }).exec(function(err, user) {
+        if (err) {
+            console.log("Error: " + err)
+        } else
+        if (user) {
+            user.routes.push({
+                loc1: request.body.routes.loc1,
+                loc2: request.body.routes.loc2,
+                loc3: request.body.routes.loc3,
+            })
+            user.save();
+            response.send(User);
+        }
+    })
 });
 
-app.get("/userInfo/:email",function(request,response){
-    User.findOne({email : request.params.email}).exec(function(err,user){
-        if(err){
+app.get("/userInfo/:email", function(request, response) {
+    User.findOne({ email: request.params.email }).exec(function(err, user) {
+        if (err) {
             console.log("Error: " + " " + err);
-        }
-        else{
+        } else {
             // console.log(user);
             response.send(user);
             console.log("Returned user to login");

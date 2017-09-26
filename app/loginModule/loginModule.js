@@ -84,12 +84,11 @@
 
     });
 
-    function makeToken(name,email, uid) {
+    function makeToken(email, uid) {
         var userName = name;
         var userEmail = email;
         var userUid = uid;
         sessionStorage.setItem("loggedIn", "true");
-        sessionStorage.setItem("name", userName);
         sessionStorage.setItem("email", userEmail);
         sessionStorage.setItem("uid", userUid);
     }

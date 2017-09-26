@@ -210,7 +210,22 @@
                 loc2: loc2,
                 loc3: loc3
             }
-            console.log(sessionInfo, route);
+            var data = {
+                uid: sessionInfo.uid,
+                routes: route
+            }
+            // console.log(data);
+            $http({
+                method: "PATCH",
+                url: '/saveRoute/' + data.uid,
+                data: data
+            }).then(function success(response) {
+                if(response.data = 200){
+                    console.log("Route Saved");
+                }
+            }, function error(response) {
+                console.log(response.statusText);
+            });
         }
 
         getUserLocation();
@@ -349,10 +364,10 @@
 
     function getSessionData() {
         var sessionLoggedIn = sessionStorage.getItem("loggedIn");
-        var sessionEmail = sessionStorage.getItem("email");
+        var userUid = sessionStorage.getItem("uid");
         var sessionData = {
             loggedIn: sessionLoggedIn,
-            email: sessionEmail
+            uid: userUid
         }
         return sessionData;
     }
