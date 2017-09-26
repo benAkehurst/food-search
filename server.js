@@ -39,7 +39,7 @@ mongoose.connect("mongodb://localhost:27017/MunchDB", function(err) {
     }
 });
 
-// Mongoose Schemas
+// user Schema
 var User = mongoose.model("User", {
     name: String,
     email: String,
@@ -78,7 +78,7 @@ app.post('/registerUser', function(req, res) {
 
     // TODO - Salt/Hash Passwords
 });
-
+// Login Control via firebase
 app.post('/login', function(req, res) {
     var email = req.body.email;
     var password = req.body.password;
@@ -97,7 +97,6 @@ app.post('/login', function(req, res) {
             console.log(error.message);
         });
 });
-
 // API call to google places to get locations list
 app.post('/routeOptions', function(req, res) {
     console.log('Requesting Places from Goolge API');
@@ -118,7 +117,6 @@ app.post('/routeOptions', function(req, res) {
         }
     })
 });
-
 // builds string for image for loaction info
 app.post('/getPlaceImage', function(req, res) {
     console.log("Requesting Image url");
@@ -130,8 +128,7 @@ app.post('/getPlaceImage', function(req, res) {
     res.send(photoUrl);
     console.log("Photo Url sent to FE");
 });
-
-// CREATE - POST candy to DB
+// Save a route to DB
 app.patch("/saveRoute/:id", function(request, response) {
     console.log(request.body.uid);
     User.findOne({
@@ -151,7 +148,7 @@ app.patch("/saveRoute/:id", function(request, response) {
         }
     })
 });
-
+// Gets user from local DB when logging in
 app.get("/userInfo/:email", function(request, response) {
     User.findOne({ email: request.params.email }).exec(function(err, user) {
         if (err) {
@@ -163,18 +160,19 @@ app.get("/userInfo/:email", function(request, response) {
         }
     })
 });
-
-// READ - GET all candy from DB
-app.get("/getallRoutes", function(request, response) {
-    Route.find({}).exec(function(err, route) {
+// Get all saved routes from DB for profile
+app.get("/getallRoutes/:_id", function(request, response) {
+    User.findOne({
+        uid: request.body.uid,
+    }).exec(function(err, user) {
         if (err) {
-            console.log("Error" + " " + err);
-        } else {
-            response.send(route);
-            console.log("Routes Loaded and sent back to FE");
+            console.log("Error: " + err)
+        } else{
+            response.send(user);
         }
     })
 });
+
 
 // UPDATE - PUT (update) a candy in the DB by the id
 app.put("/editRoute/:_id", function(request, response) {

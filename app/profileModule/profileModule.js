@@ -8,10 +8,26 @@
 
         var userDetail = function(){
         	var userDetails = getSessionItems();
-        	$scope.userDetail = userDetails;
+        	$scope.userDetail = userDetails.sessionName;
+        }
+
+        var getSavedRoutes = function(){
+            var userInfo = getSessionItems();
+            var uid = userInfo.userUid;
+            $http({
+                method:"GET",
+                url:"/getallRoutes/" + uid
+            }).then(function success(response){
+                var savedRoutes = response.data[0].routes;
+                console.log(savedRoutes);
+                $scope.savedRoutes = savedRoutes;
+            }, function error(response){
+                console.log(response.statusText);
+            });
         }
 
         userDetail();
+        getSavedRoutes();
 
         $scope.logout = function() {
             sessionStorage.clear();
@@ -22,7 +38,12 @@
 
     function getSessionItems() {
         var sessionName = sessionStorage.getItem("name");
-        return sessionName;
+        var userUid = sessionStorage.getItem("uid");
+        var sessinInfo = {
+            sessionName:sessionName,
+            userUid: userUid
+        }
+        return sessinInfo;
     }
 
 })();

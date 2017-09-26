@@ -13,7 +13,28 @@
 </div>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-4">Saved Routes</div>
+        <div class="col-md-4">
+            <md-card class="route_card" ng-repeat="route in savedRoutes track by $index">
+                <md-card-actions layout="row" layout-align="start center">
+                    <md-card-title class="">
+                        <md-card-title-text>
+                            <h4>{{route.loc1.name}}</h4>
+                        </md-card-title-text>
+                    </md-card-title>
+                    <div><i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i></div>
+                    <md-card-title class="">
+                        <md-card-title-text>
+                            <h4>{{route.loc2.name}}</h4>
+                        </md-card-title-text>
+                    </md-card-title>
+                    <div><i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i></div>
+                    <md-card-title class="">
+                        <md-card-title-text>
+                            <h4>{{route.loc3.name}}</h4>
+                        </md-card-title-text>
+                    </md-card-title>
+            </md-card>
+        </div>
         <div class="col-md-8">Map</div>
     </div>
 </div>
