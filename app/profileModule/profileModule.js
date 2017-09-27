@@ -11,6 +11,8 @@
         	$scope.userDetail = userDetails.sessionName;
         }
 
+        $scope.savedRoutes = null;
+
         var getSavedRoutes = function(){
             var userInfo = getSessionItems();
             var uid = userInfo.userUid;
@@ -41,6 +43,7 @@
                 url:"/deleteRoute/" + uid + "/" + route
             }).then(function success(response){
                 console.log(response.data);
+                $scope.savedRoutes = response.data.routes;
             }, function error(response){
                 console.log(response.statusText);
             });
