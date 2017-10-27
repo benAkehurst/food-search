@@ -6,18 +6,19 @@
 
     routesModule.controller("RoutesController", function($filter, $http, $scope, $rootScope, $location) {
 
-        // var userCity = function() {
-        //     $http({
-        //         method: 'GET',
-        //         url: 'https://ipinfo.io'
-        //     }).then(function successCallback(response) {
-        //         $scope.city = response.data.city;
-        //     }, function errorCallback(response) {
-        //         console.log(response);
-        //     });
-        // };
+        var userCity = function() {
+            $http({
+                method: 'GET',
+                url: 'https://ipinfo.io'
+            }).then(function successCallback(response) {
+                $scope.city = response.data.region;
+            }, function errorCallback(response) {
+                console.log(response);
+            });
+        };
 
         var shuffleChoice = [];
+
         // var userLocation = {}; // comp loc TURNED OFF FOR TESTING
         // var userLocation = {
         //     latitude: 32.079542,
@@ -26,6 +27,7 @@
             latitude: 51.513044,
             longitude: -0.124476
         }; // covent garden
+
         $scope.loadingIcon = false;
         $scope.hideRoutes = false;
         $scope.loggedIn = false;
@@ -35,15 +37,11 @@
             if (sessionInfo.loggedIn) {
                 $scope.loggedIn = true;
             }
-        }
+        };
 
         var getUserLocation = function() {
             navigator.geolocation.getCurrentPosition(
                 function(position) {
-                    var latitude = position.coords.latitude;
-                    var longitude = position.coords.longitude;
-                    var timeStamp = position.coords.timestamp;
-                    var accuracy = position.coords.accuracy;
                     var pos = {
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude,
@@ -73,12 +71,13 @@
 
         var daySearch = function(locObj) {
             // var longLat = locObj.latitude + "," + locObj.longitude; //comp loc TURNED OFF FOR TESTING
-            var longLat = "32.079542,34.779720"; //tel aviv
+            // var longLat = "32.079542,34.779720"; //tel aviv
             // var longLat = "51.510405,-0.131515"; //london TURNED OFF FOR TESTING
+            var longLat = "52.362613, 4.886519"; //Amsterdam
             var radius = "&radius=1500";
             // var type = "&type=cafe&type=bar"; // Bar & Cafe
-            var type = "&type=resturant"; // Bar & Cafe
-            // var type = "&type=cafe"; // cafe
+            // var type = "&type=resturant"; // Bar & Cafe
+            var type = "&type=cafe"; // cafe
             var searchParams = {
                 location: longLat,
                 radius: radius,
@@ -90,7 +89,8 @@
         var nightSerch = function(locObj) {
             // var longLat = locObj.latitude + "," + locObj.longitude; //comp loc TURNED OFF FOR TESTING
             // var longLat = "32.079542,34.779720"; //tel aviv
-            var longLat = "51.510405,-0.131515"; //london TURNED OFF FOR TESTING
+            // var longLat = "51.510405,-0.131515"; //london TURNED OFF FOR TESTING
+            var longLat = "52.362613, 4.886519"; //Amsterdam
             var radius = "&radius=1500";
             // var type = "&type=cafe&type=bar"; // Bar & Cafe
             var type = "&type=bar&type=cafe"; // Bar
@@ -112,6 +112,7 @@
                 // console.log(response.data.results);
                 $scope.loadingIcon = true;
                 var options = results(response.data.results);
+                console.log(options);
                 if (options.length <= 2) {
                     $scope.hideRoutes = true;
                 }
@@ -158,20 +159,22 @@
             var medLoc = to1000Meters;
             var farLoc = to1500Meters;
             var random = randomNum(closestLoc.length, medLoc.length, farLoc.length);
-            // console.log(random);
+            console.log(random);
             var route = [];
-            // console.log(route);
+            console.log(route);
             if (closestLoc) {
                 route.push(closestLoc[random.loc1]);
-            }
-            if (medLoc) {
-                route.push(medLoc[random.loc2]);
-            }
-            if (farLoc) {
+                route.push(closestLoc[random.loc2]);
                 route.push(closestLoc[random.loc4]);
-            } else if (!farLoc) {
-                route.push(farLoc[random.loc3]);
             }
+            // if (medLoc) {
+            //     route.push(medLoc[random.loc2]);
+            // }
+            // if (farLoc) {
+            //     route.push(closestLoc[random.loc4]);
+            // } else if (!farLoc) {
+            //     route.push(farLoc[random.loc3]);
+            // }
             $scope.closetToMe = route;
         }
 
@@ -229,7 +232,7 @@
         }
 
         getUserLocation();
-        // userCity();
+        userCity();
         checkLoggedIn();
 
     });
@@ -321,9 +324,9 @@
         var openNowLocations = [];
         // console.log(openNowLocations);
         for (var i = 0; i < shuffledArray.length; i++) {
-            if (shuffledArray[i].opening_hours == undefined) {} else if (shuffledArray[i].opening_hours.open_now === true && shuffledArray[i].rating > 3) {
+            // if (shuffledArray[i].opening_hours == undefined) {} else if (shuffledArray[i].opening_hours.open_now === true && shuffledArray[i].rating > 2) {
                 openNowLocations.push(shuffledArray[i]);
-            }
+            // }
         }
         var openNowResults = shuffle(openNowLocations);
         // console.log(openNowResults);
