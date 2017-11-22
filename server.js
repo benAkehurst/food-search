@@ -3,12 +3,9 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
-var http = require("http");
-var https = require("https");
 var request = require('request');
 var router = express.Router();
 var firebase = require("firebase");
-var crypto = require('crypto');
 
 // Uses for getting page elements
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -65,8 +62,8 @@ app.post('/registerUser', function(req, res) {
             var signedUp = {
                 uid: user.uid,
                 signUpSuccess: true,
-                redirect: true,
-            }
+                redirect: true
+            };
             var newUser = new User({ name: req.body.name, email: req.body.email, uid: user.uid });
             newUser.save();
             res.send(signedUp);
@@ -89,7 +86,7 @@ app.post('/login', function(req, res) {
                 loggedIn: true,
                 userEmail: email,
                 userUid: user.uid
-            }
+            };
             res.send(loggedInData);
         })
         .catch(function(error) {

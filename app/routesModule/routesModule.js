@@ -204,7 +204,7 @@
             $scope.detialsName = location.name;
             $scope.marker = marker.toUpperCase();
             $scope.detialsRating = location.rating;
-        }
+        };
 
         $scope.saveRoute = function(loc1, loc2, loc3) {
             var sessionInfo = getSessionData();
@@ -212,11 +212,11 @@
                 loc1: loc1,
                 loc2: loc2,
                 loc3: loc3
-            }
+            };
             var data = {
                 uid: sessionInfo.uid,
                 routes: route
-            }
+            };
             console.log(data);
             $http({
                 method: "PATCH",
@@ -229,7 +229,7 @@
             }, function error(response) {
                 console.log(response.statusText);
             });
-        }
+        };
 
         getUserLocation();
         userCity();
