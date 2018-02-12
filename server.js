@@ -83,6 +83,19 @@ app.post('/login', function (req, res, next) {
     });
 });
 
+//Gets user details in profile
+app.get("/userInfo/:userId", function (req, res) {
+    User.findById({ _id: req.params.userId }).exec(function (err, user) {
+        if (err) {
+            console.log("Error: " + " " + err);
+        } else {
+            // console.log(user);
+            res.send(user);
+            console.log("Returned user to login");
+        }
+    })
+});
+
 // API call to google places to get locations list
 app.post('/routeOptions', function(req, res) {
     console.log('Requesting Places from Goolge API');
@@ -134,18 +147,7 @@ app.patch("/saveRoute/:id", function(request, response) {
         }
     })
 });
-// Gets user from local DB when logging in
-app.get("/userInfo/:email", function(request, response) {
-    User.findOne({ email: request.params.email }).exec(function(err, user) {
-        if (err) {
-            console.log("Error: " + " " + err);
-        } else {
-            // console.log(user);
-            response.send(user);
-            console.log("Returned user to login");
-        }
-    })
-});
+
 // Get all saved routes from DB for profile
 app.get("/getallRoutes/:id", function(request, response) {
     // console.log(request.params.id);
