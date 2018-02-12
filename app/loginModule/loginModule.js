@@ -10,91 +10,49 @@
 
         $scope.signUpSuccess = false;
 
-        $scope.login = function(email, password) {
-            // console.log("Login");
-            var data = {
-                email: email,
-                password: password
-            };
-            
-            $http({
-                method:"GET",
-                url:"/userInfo/" + data.email
-            }).then(function success(response){
-                var userName = response.data.name;
-                makeNameToken(userName);
-                // console.log(response.data);
-                // var userName = response.data.name;
-                // console.log(userName);
-            }, function error(response){
-                console.log(response.statusText);
-            });
-            
+        $scope.login = function () {
+            var loginObj = {
+                email: $scope.login_form_email,
+                password: $scope.login_form_password
+            }
             $http({
                 method: "POST",
                 url: '/login',
-                data: data
-            }).then(function success(response) {
-                // console.log(response.data);
-                var uid = response.data.userUid;
-                var userEmail = data.email;
-                // console.log(userEmail);
-                if (response.data.loggedIn === true) {
-                    // console.log("loged in");
-                    makeToken(userEmail, uid);
-                    $rootScope.loggedIn = true;
-                    $location.path('/routes');
-                }
-            }, function error(response) {
-                console.log(response.statusText);
+                data: loginObj
+            }).then(function success(res) {
+                localStorage.setItem('token', res.data.token);
+                localStorage.setItem('userId', res.data.userId);
+                $location.path('/routes');
+            }, function error(res) {
+                // TODO: Show Error
+                console.log(res);
             });
-        }
+        };
 
-        $scope.signUp = function(name, email, password) {
-            // console.log("signup Called");
-            var data = {
-                name: name,
-                email: email,
-                password: password
-            };
+        $scope.signUp = function() {
+            var signupObj = {
+                name: $scope.sign_up_form_name,
+                email: $scope.sign_up_form_email,
+                password: $scope.sign_up_form_password
+            }
             $http({
                 method: "POST",
                 url: '/registerUser',
-                data: data
-            }).then(function success(response) {
-                $scope.sign_up_form.$setPristine();
-                var uid = response.data.uid;
-                if (response.data.signUpSuccess === true) {
-                    // console.log("Signed UP");
-                    makeToken(data.name, data.email, uid);
+                data: signupObj
+            }).then(function success(res) {
+                if (res.status == 201) {
+                    // console.log(res);
                     $scope.signUpSuccess = true;
-                    $timeout(function() {
-                        $scope.signUpSuccess = false;
-                        $location.path('/routes');
-                    }, 3000);
                 }
-            }, function error(response) {
-                console.log(response.statusText);
+            }, function error(res) {
+                // TODO: Show Error
             });
-        }
+        };
 
-        $scope.redirectToRoutes = function() {
+        $scope.redirectToRoutes = function () {
             $location.path('/routes');
-        }
+        };
 
     });
-
-    function makeToken(email, uid) {
-        var userEmail = email;
-        var userUid = uid;
-        sessionStorage.setItem("loggedIn", "true");
-        sessionStorage.setItem("email", userEmail);
-        sessionStorage.setItem("uid", userUid);
-    }
-
-    function makeNameToken(name){
-        var userName = name;
-        sessionStorage.setItem("name", userName);
-    }
 
 })();
