@@ -6,9 +6,22 @@
 
     profileModule.controller("ProfileController", function($http, $scope, $rootScope, $location) {
 
-        var userDetail = function(){
-        	var userDetails = getSessionItems();
-        	$scope.userDetail = userDetails.sessionName;
+        $scope.userName = '';
+        
+        const userDetail = function(){
+        	let userDetails = getLocalStorageItems();
+            let userId = userDetails.userId;
+            
+            $http({
+                method: "GET",
+                url: "/userInfo/" + userId
+            }).then(function success(res) {
+                console.log(res);
+                $scope.userName = res.data.name;
+            }, function error(res) {
+                console.log(res);
+            });
+
         }
 
         $scope.savedRoutes = null;
@@ -31,7 +44,6 @@
         }
 
         userDetail();
-        getSavedRoutes();
 
         $scope.deleteRoute = function(route){
             // console.log(route);
@@ -49,21 +61,22 @@
             });
         }
 
-        $scope.logout = function() {
-            sessionStorage.clear();
+        $scope.logout = function () {
+            localStorage.removeItem("token");
+            localStorage.removeItem("userId");
             $location.path('/login');
         }
 
     });
 
-    function getSessionItems() {
-        var sessionName = sessionStorage.getItem("name");
-        var userUid = sessionStorage.getItem("uid");
-        var sessinInfo = {
-            sessionName:sessionName,
-            userUid: userUid
-        }
-        return sessinInfo;
+    function getLocalStorageItems() {
+        let userToken = localStorage.getItem("token");
+        let userId = localStorage.getItem("userId");
+        let userObj = {
+            token: userToken,
+            userId: userId
+        };
+        return userObj;
     }
 
 })();
