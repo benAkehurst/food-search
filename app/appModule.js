@@ -85,5 +85,29 @@
                 .primaryPalette('blue')
                 .accentPalette('green');
 
+        })
+
+        .service('checkLoggedIn', function ($rootScope) {
+            
+            this.userStatus = function () {
+            let checkStatus = getLocalStorageItems();
+            if (checkStatus.token) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        
         });
+
+    function getLocalStorageItems() {
+        let userToken = localStorage.getItem("token");
+        let userId = localStorage.getItem("userId");
+        let userObj = {
+            token: userToken,
+            userId: userId
+        };
+        return userObj;
+    }
 })();

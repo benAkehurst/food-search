@@ -4,7 +4,9 @@
 
     var routesModule = angular.module("routesModule", []);
 
-    routesModule.controller("RoutesController", function($filter, $http, $scope, $rootScope, $location) {
+    routesModule.controller("RoutesController", function ($filter, $http, $scope, $rootScope, $location, checkLoggedIn) {
+
+        checkLoggedIn.userStatus();
 
         var userCity = function() {
             $http({
@@ -298,6 +300,16 @@
                 }
             });
         }
+    }
+
+    function getLocalStorageItems() {
+        let userToken = localStorage.getItem("token");
+        let userId = localStorage.getItem("userId");
+        let userObj = {
+            token: userToken,
+            userId: userId
+        };
+        return userObj;
     }
 
     function tellTime() {

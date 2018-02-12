@@ -4,41 +4,20 @@
 
     var navBarModule = angular.module("navBarModule", []);
 
-    navBarModule.controller("NavBarController", function($http, $route, $scope, $rootScope, $location, $timeout) {
+    navBarModule.controller("NavBarController", function ($http, $route, $scope, $rootScope, $location, $timeout, $window, checkLoggedIn) {
 
-        $rootScope.loggedIn = false;
+       $scope.isLoggedIn = false;
 
-        const checkLoggedIn = function() {
-            let userToken = getLocalStorageItems();
-            // console.log(localItems,sessionItems);
-            if (!userToken.token) {
-                $rootScope.loggedIn = false;
-            } else {
-                $rootScope.loggedIn = true;
+        function whenReady() {
+            if (checkLoggedIn.userStatus()) {
+                $scope.isLoggedIn = true;
+            }
+            else {
+                $scope.isLoggedIn = false;
+                window.setTimeout(whenReady, 1000);
             }
         }
-
-        $scope.loggedIn = false;
-        var loggedIn = function() {
-            var staus = getSessionStorageItems();
-            if (status = true){
-                $scope.loggedIn = true;
-            }
-            else{
-               $scope.loggedIn = false; 
-            }
-        }
-
-        $timeout(function() {
-            loggedIn();
-        }, 7000);
-
-        checkLoggedIn();
-
-        $scope.logout = function() {
-            localStorage.clear();
-            $location.path('/login');
-        }
+        window.setTimeout(whenReady, 1000);
 
     });
 
