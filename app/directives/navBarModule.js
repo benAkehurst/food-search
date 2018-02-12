@@ -8,13 +8,13 @@
 
         $rootScope.loggedIn = false;
 
-        var checkLoggedIn = function() {
-            var sessionItems = getSessionStorageItems();
+        const checkLoggedIn = function() {
+            let userToken = getLocalStorageItems();
             // console.log(localItems,sessionItems);
-            if (!sessionItems) {
-                $rootScope.loggedIn = true;
-            } else {
+            if (!userToken.token) {
                 $rootScope.loggedIn = false;
+            } else {
+                $rootScope.loggedIn = true;
             }
         }
 
@@ -36,15 +36,20 @@
         checkLoggedIn();
 
         $scope.logout = function() {
-            sessionStorage.clear();
+            localStorage.clear();
             $location.path('/login');
         }
 
     });
 
-    function getSessionStorageItems() {
-        var sessionLoggedIn = sessionStorage.getItem("loggedIn");
-        return sessionLoggedIn;
+    function getLocalStorageItems() {
+        let userToken = localStorage.getItem("token");
+        let userId = localStorage.getItem("userId");
+        let userObj = {
+            token: userToken,
+            userId: userId
+        };
+        return userObj;
     }
 
 })();

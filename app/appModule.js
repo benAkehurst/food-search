@@ -17,13 +17,6 @@
             $routeProvider
 
                 .when("/login", {
-                    // resolve: {
-                    //     "check": function($location) {
-                    //         if (sessionStorage.userLoggedIn) {
-                    //             $location.path("/school");
-                    //         }
-                    //     }
-                    // },
                     controller: "LoginController",
                     templateUrl: "app/loginModule/loginView.html"
                 })
@@ -59,19 +52,19 @@
                 })
 
                 .when("/profile", {
-                    resolve: {
-                        "check": function($location) {
-                            if (sessionStorage.loggedIn) {
-                                $location.path("/profile");
-                            } else if (localStorage.stayLoggedIn) {
-                                $location.path("/profile");
-                            } else {
-                                $location.path("/login");
-                            }
-                        }
-                    },
                     controller: "ProfileController",
-                    templateUrl: "app/profileModule/profileView.html"
+                    templateUrl: "app/profileModule/profileView.html",
+                    resolve: {
+                        app: function ($q, $location) {
+                            var defer = $q.defer();
+                            var loginToken = localStorage.getItem('token');
+                            if (!loginToken) {
+                                $location.path('/login');
+                            };
+                            defer.resolve();
+                            return defer.promise;
+                        }
+                    }
                 })
 
                 .otherwise({

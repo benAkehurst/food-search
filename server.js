@@ -33,7 +33,7 @@ mongoose.connect("mongodb://localhost:27017/MunchDB", function(err) {
         console.log("Connected to Database")
     }
 });
-
+// register user method
 app.post('/registerUser', function (req, res, next) {
     var user = new User({
         name: req.body.name,
@@ -53,7 +53,7 @@ app.post('/registerUser', function (req, res, next) {
         });
     });
 });
-// Login
+// Login user method
 app.post('/login', function (req, res, next) {
     User.findOne({ email: req.body.email }, function (err, user) {
         if (err) {
