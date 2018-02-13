@@ -13,6 +13,9 @@ var router = express.Router();
 // Schemas
 var User = require('./serverModels/user');
 
+// Requirements
+require('dotenv').config()
+
 // Uses for getting page elements
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -83,6 +86,8 @@ app.post('/login', function (req, res, next) {
     });
 });
 
+
+
 //Gets user details in profile
 app.get("/userInfo/:userId", function (req, res) {
     User.findById({ _id: req.params.userId }).exec(function (err, user) {
@@ -103,7 +108,7 @@ app.post('/routeOptions', function(req, res) {
     var longLat = req.body.location;
     var radius = req.body.radius;
     var type = req.body.type;
-    var key = "&key=AIzaSyD32rWtceO4-3aY02cxmsYwihYuNEWVIOw";
+    var key = "&key=" + process.env.GOOGLE_PLACES_API_KEY;
     var searchTerm = base + longLat + radius + type + key;
     // console.log(searchTerm);
     request(searchTerm, function(error, response, body) {
