@@ -28,8 +28,6 @@ h1 {
 	font-family: 'Rubik', sans-serif;
 	order: 0;
     flex: 0 1 auto;
-    align-self: center;
-    text-align: center;
 }
 
 .shuffle_choices_button {

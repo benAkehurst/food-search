@@ -22,7 +22,7 @@ require('dotenv').config()
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(__dirname));
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PATCH, DELETE, OPTIONS');
@@ -31,7 +31,7 @@ app.use(function(req, res, next) {
 
 // Connect to DB with mongoose
 mongoose.Promise = global.Promise;
-mongoose.connect("mongodb://localhost:27017/MunchDB", function(err) {
+mongoose.connect("mongodb://localhost:27017/MunchDB", function (err) {
     if (err) {
         console.log("Error: " + err);
     } else {
@@ -90,19 +90,19 @@ app.post('/login', function (req, res, next) {
 
 // Get the users location via IP address
 var userLocaionViaIP = '';
-var options = { uri: 'http://ipinfo.io', headers: { 'User-Agent': 'Request-Promise'}, json: true };
+var options = { uri: 'http://ipinfo.io', headers: { 'User-Agent': 'Request-Promise' }, json: true };
 rp(options)
-.then(function (userLocation) {
-    userLocaionViaIP = userLocation;
-})
-.catch(function (err) {
-    if(err){
-        userLocaionViaIP = 'error finding location';
-    }
-});
+    .then(function (userLocation) {
+        userLocaionViaIP = userLocation;
+    })
+    .catch(function (err) {
+        if (err) {
+            userLocaionViaIP = 'error finding location';
+        }
+    });
 
 // API call to google places to get locations list
-app.post('/routeOptions', function(req, res) {
+app.post('/routeOptions', function (req, res) {
     console.log('Requesting Places from Goolge API');
     var base = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
     var longLat = userLocaionViaIP.loc;
@@ -111,7 +111,7 @@ app.post('/routeOptions', function(req, res) {
     var key = "&key=" + process.env.GOOGLE_PLACES_API_KEY;
     var searchTerm = base + longLat + radius + type + key;
     // console.log(searchTerm);
-    request(searchTerm, function(error, response, body) {
+    request(searchTerm, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             var options = JSON.parse(body)
             // do more stuff
@@ -121,9 +121,8 @@ app.post('/routeOptions', function(req, res) {
         }
     })
 });
-
 // builds string for image for loaction info
-app.post('/getPlaceImage', function(req, res) {
+app.post('/getPlaceImage', function (req, res) {
     console.log("Requesting Image url");
     var base = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=";
     var location = req.body.ref;
@@ -133,24 +132,20 @@ app.post('/getPlaceImage', function(req, res) {
     res.send(photoUrl);
     console.log("Photo Url sent to FE");
 });
+
 // Save a route to DB
-app.post("/saveRoute/:id", function(request, response) {
-    console.log(request.body.uid);
-    User.findOne({
-        uid: request.body.uid,
-    }).exec(function(err, user) {
+app.post("/saveRoute", function (req, res) {
+    var data = req.body.routes;
+    var newRoute = {
+        locationOne: data.loc1,
+        locationTwo: data.loc2,
+        locationThree: data.loc3
+    }
+    User.findByIdAndUpdate(req.body.uid, { "$push": { "savedRoutes": newRoute } }).exec(function (err, user) {
         if (err) {
             console.log("Error: " + err)
-        } else
-        if (user) {
-            User.routes.push({
-                loc1: request.body.routes.loc1,
-                loc2: request.body.routes.loc2,
-                loc3: request.body.routes.loc3,
-            })
-            user.save();
-            response.send(User);
         }
+        res.send({success: true});
     })
 });
 //Gets user details in profile
@@ -166,11 +161,11 @@ app.get("/userInfo/:userId", function (req, res) {
     })
 });
 // Get all saved routes from DB for profile
-app.get("/getallRoutes/:id", function(request, response) {
+app.get("/getallRoutes/:id", function (request, response) {
     // console.log(request.params.id);
     User.findOne({
         uid: request.params.id,
-    }).exec(function(err, user) {
+    }).exec(function (err, user) {
         if (err) {
             console.log("Error: " + err);
         } else {
@@ -181,10 +176,10 @@ app.get("/getallRoutes/:id", function(request, response) {
 });
 
 // DELETE - delete specific candy from the DB
-app.delete("/deleteRoute/:uid/:_id", function(request, response) {
+app.delete("/deleteRoute/:uid/:_id", function (request, response) {
     // console.log("ID" + request.params.id);
     User.findOne({ id: request.body.id })
-        .exec(function(err, user) {
+        .exec(function (err, user) {
             if (err) {
                 console.log("Error" + " " + err)
             } else {
@@ -204,11 +199,11 @@ app.delete("/deleteRoute/:uid/:_id", function(request, response) {
 
 
 // UPDATE - PUT (update) a candy in the DB by the id
-app.put("/editRoute/:_id", function(request, response) {
+app.put("/editRoute/:_id", function (request, response) {
 
     var editRoute = request.body;
 
-    Route.findOne({ _id: request.params._id }).exec(function(err, singleRoute) {
+    Route.findOne({ _id: request.params._id }).exec(function (err, singleRoute) {
         if (err) {
             console.log("Error" + " " + err);
         } else {
@@ -227,6 +222,6 @@ app.put("/editRoute/:_id", function(request, response) {
 
 
 // allows the server to connect on port 3000 
-app.listen(3000, function() {
+app.listen(3000, function () {
     console.log("Listening on http://localhost:3000");
 });

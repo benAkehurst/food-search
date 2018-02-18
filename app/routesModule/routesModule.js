@@ -8,8 +8,22 @@
 
         let userStatus = checkLoggedIn.userStatus();
         let userId = userStatus.userId;
+        $scope.loggedIn = userStatus;
+        $scope.loadingIcon = false;
+        $scope.hideRoutes = false;
+        $scope.saveSuccess = false;
+        $scope.saveFail = false;
+        // Defining Blank Variables
+        var shuffleChoice = [];
+        var userLocation = {}; // comp loc TURNED OFF FOR TESTING
+        // var userLocation = { latitude: 32.079542, longitude: 34.779720}; // Tel Aviv // TURNED OFF FOR TESTING
+        // var userLocation = { latitude: 51.513044, longitude: -0.124476}; // covent garden
+        var to500Meters = [];
+        var to1000Meters = [];
+        var to1500Meters = [];
 
-        var userCity = function(){
+        // On Init Items
+        var userCity = function () {
             $http({
                 method: 'GET',
                 url: 'https://ipinfo.io'
@@ -19,32 +33,9 @@
                 console.log(response);
             });
         };
-
-        var shuffleChoice = [];
-
-        var userLocation = {}; // comp loc TURNED OFF FOR TESTING
-        // var userLocation = { latitude: 32.079542, longitude: 34.779720}; // Tel Aviv // TURNED OFF FOR TESTING
-        // var userLocation = { latitude: 51.513044, longitude: -0.124476}; // covent garden
-
-        $scope.radius = [1500, 2000, 2500];
-        $scope.selectedItem;
-        $scope.getSelectedText = function () {
-            if ($scope.selectedItem !== undefined) {
-                return "You have selected: " + $scope.selectedItem + 'm';
-            } else {
-                return "Please select an distance";
-            }
-        };
-
-        $scope.typesOfLocation = ['Resturant', 'Bar', 'Cafe', ];
-
-        $scope.loadingIcon = false;
-        $scope.hideRoutes = false;
-        $scope.loggedIn = false;
-
-        var getUserLocation = function() {
+        var getUserLocation = function () {
             navigator.geolocation.getCurrentPosition(
-                function(position) {
+                function (position) {
                     var pos = {
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude,
@@ -55,15 +46,14 @@
                     initMap(pos);
                 });
         };
-
-        var userLoc = function(pos) {
+        var userLoc = function (pos) {
             var latitude = pos.latitude;
             var longitude = pos.longitude;
             var locObj = {
                 latitude: latitude,
                 longitude: longitude
             };
-            // userLocation = locObj; // TURNED OFF FOR TESTING
+            userLocation = locObj; // TURNED OFF FOR TESTING
             var time = tellTime();
             if (time === 'day') {
                 daySearch(locObj);
@@ -72,9 +62,24 @@
             }
         };
 
+        
+        // Route Options
+        $scope.radius = [1500, 2000, 2500];
+        $scope.selectedItem;
+        $scope.getSelectedText = function () {
+            if ($scope.selectedItem !== undefined) {
+                return "You have selected: " + $scope.selectedItem + 'm';
+            } else {
+                return "Please select an distance";
+            }
+        };
+        $scope.typesOfLocation = ['Resturant', 'Bar', 'Cafe', ];
+
+
+        // TODO: Here are the functions where I need to enter user selected params
         var daySearch = function(locObj) {
-            var longLat = locObj.latitude + "," + locObj.longitude; //comp loc TURNED OFF FOR TESTING
-            // var longLat = "32.079542,34.779720"; //tel aviv
+            // var longLat = locObj.latitude + "," + locObj.longitude; //comp loc TURNED OFF FOR TESTING
+            var longLat = "32.079542,34.779720"; //tel aviv
             // var longLat = "51.510405,-0.131515"; //london TURNED OFF FOR TESTING
             // var longLat = "52.362613, 4.886519"; //Amsterdam
             var radius = "&radius=1500";
@@ -90,8 +95,8 @@
         };
 
         var nightSerch = function(locObj) {
-            var longLat = locObj.latitude + "," + locObj.longitude; //comp loc TURNED OFF FOR TESTING
-            // var longLat = "32.079542,34.779720"; //tel aviv
+            // var longLat = locObj.latitude + "," + locObj.longitude; //comp loc TURNED OFF FOR TESTING
+            var longLat = "32.079542,34.779720"; //tel aviv
             // var longLat = "51.510405,-0.131515"; //london TURNED OFF FOR TESTING
             // var longLat = "52.362613, 4.886519"; //Amsterdam
             var radius = "&radius=1500";
@@ -112,31 +117,21 @@
                 url: '/routeOptions',
                 data: data
             }).then(function success(response) {
-                // console.log(response.data.results);
                 $scope.loadingIcon = true;
                 var options = results(response.data.results);
                 console.log(options);
                 if (options.length <= 2) {
                     $scope.hideRoutes = true;
                 }
-                // console.log(options);
-                // $scope.openLocations = options;
                 sorting(options);
             }, function error(response) {
                 console.log(response.statusText);
+                $scope.errorMessage = response.statusText;
             });
         };
 
-        var to500Meters = [];
-        var to1000Meters = [];
-        var to1500Meters = [];
-
         var sorting = function(options) {
             var options = options;
-            // console.log(options);
-            // var to500Meters = [];
-            // var to1000Meters = [];
-            // var to1500Meters = [];
             for (var i = 0; i < options.length; i++) {
                 if (options[i].geometry.location) {
                     var placeLatLng = {
@@ -162,9 +157,9 @@
             var medLoc = to1000Meters;
             var farLoc = to1500Meters;
             var random = randomNum(closestLoc.length, medLoc.length, farLoc.length);
-            console.log(random);
+            // console.log(random);
             var route = [];
-            console.log(route);
+            // console.log(route);
             if (closestLoc) {
                 route.push(closestLoc[random.loc1]);
                 route.push(closestLoc[random.loc2]);
@@ -210,27 +205,29 @@
         };
 
         $scope.saveRoute = function(loc1, loc2, loc3) {
-            var sessionInfo = getSessionData();
             var route = {
                 loc1: loc1,
                 loc2: loc2,
                 loc3: loc3
             };
             var data = {
-                uid: sessionInfo.uid,
+                uid: userId,
                 routes: route
             };
-            console.log(data);
+            // console.log(data);
             $http({
-                method: "PATCH",
-                url: '/saveRoute/' + data.uid,
+                method: "POST",
+                url: '/saveRoute',
                 data: data
             }).then(function success(response) {
                 if(response.data = 200){
                     console.log("Route Saved");
+                    $scope.saveSuccess = true;
+                    toastr.info('Are you the 6 fingered man?');
                 }
             }, function error(response) {
                 console.log(response.statusText);
+                $scope.saveFail = true;
             });
         };
 

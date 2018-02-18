@@ -1,6 +1,6 @@
 <link rel="stylesheet" type="text/css" href="app/routesModule/routesView.css">
 <div class="container-fluid">
-    <div class="row">
+    <div layout="row" layout-sm="column" layout-align="space-around">
         <section>
             <div class="title_row" ng-show="loadingIcon">
                 <h1>Pick a route in {{city}}!</h1>
@@ -14,12 +14,12 @@
         </section>
     </div>
     <div class="row" ng-show="loadingIcon" ng-hide="hideRoutes">
-        <div class="col-md-5" class="choices_div">
+        <div class="col-md-6" class="choices_div">
             <div class="routes_button_container">
-                <md-button class="md-raised open-options-button" type="button" data-toggle="collapse" data-target="#collapseExample" aria-controls="collapseExample"> Route Options</md-button>
-                <md-button class="md-raised shuffle_choices_button" ng-click="shuffle()">New Route</md-button>
-                <md-button class="md-raised md-accent pick_route_button" ng-click="makeMap(closetToMe[0],closetToMe[1],closetToMe[2])">Show me this route</md-button>
-                <md-button class="md-raised md-accent save_route_button" ng-show="loggedIn" ng-click="saveRoute(closetToMe[0],closetToMe[1],closetToMe[2])">Save this route</md-button>
+                <md-button class="md-raised open-options-button" type="button" data-toggle="collapse" data-target="#collapseExample" aria-controls="collapseExample">Options</md-button>
+                <md-button class="md-raised shuffle_choices_button" ng-click="shuffle()">New</md-button>
+                <md-button class="md-raised md-accent save_route_button" ng-show="loggedIn" ng-click="saveRoute(closetToMe[0],closetToMe[1],closetToMe[2])">Save</md-button>
+                <md-button class="md-raised md-accent pick_route_button" ng-click="makeMap(closetToMe[0],closetToMe[1],closetToMe[2])">Show</md-button>
             </div>
             <div class="collapse" id="collapseExample">
                 <div class="card card-body">
@@ -66,15 +66,19 @@
                             </md-card-title-text>
                         </md-card-title>
                 </md-card>
+                <div class="save-details">
+                    <div ng-show="$scope.saveSuccess != false"><h1>Save Successfull</h1></div>
+                    <div ng-show="$scope.saveFail != false"><h1>Save Failed</h1></div>
+                </div>
                 <div class="location_details_container">
-                    <h3>{{detialsName}}</h3>
+                    <h3>Location: {{detialsName}}</h3>
                     <h4>Marker: {{marker}}</h4>
                     <h4>Rating: {{detialsRating}}</h4>
                     <img class="location_image" ng-src="{{detailsImage}}" alt="">
                 </div>
             </section>
         </div>
-        <div class="col-md-7" class="border map_div">
+        <div class="col-md-6" class="border map_div">
             <section>
                 <div id="map"></div>
             </section>

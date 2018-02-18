@@ -41,7 +41,7 @@
                 data: signupObj
             }).then(function success(res) {
                 if (res.status == 201) {
-                    // console.log(res);
+                    console.log(res);
                     $scope.signUpSuccess = true;
                 }
             }, function error(res) {

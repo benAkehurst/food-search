@@ -26,10 +26,7 @@ var User = new Schema({
     image: {
         type: String
     },
-    savedRoutes: [{
-        type: Schema.Types.ObjectId,
-        ref: "RouteModel"
-    }]
+    savedRoutes: []
 }, {
         timestamps: true
     });
