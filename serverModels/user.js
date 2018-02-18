@@ -15,7 +15,8 @@ var User = new Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     routes: [{ type: Schema.Types.ObjectId, ref: 'Friends' }],
-    userImage: { type: String }
+    userImage: { type: String },
+    { timestamps: true }
 });
 
 
