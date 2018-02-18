@@ -9,7 +9,8 @@
        $scope.isLoggedIn = false;
 
         function whenReady() {
-            if (checkLoggedIn.userStatus()) {
+            let loggedInStatus = checkLoggedIn.userStatus();
+            if (loggedInStatus.status === true) {
                 $scope.isLoggedIn = true;
             }
             else {

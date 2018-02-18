@@ -12,6 +12,7 @@ var router = express.Router();
 
 // Schemas
 var User = require('./serverModels/user');
+var Route = require('./serverModels/rotue');
 
 // Requirements
 require('dotenv').config()
@@ -127,13 +128,13 @@ app.post('/getPlaceImage', function(req, res) {
     var base = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=";
     var location = req.body.ref;
     var sensor = "&sensor=false";
-    var key = "&key=AIzaSyD32rWtceO4-3aY02cxmsYwihYuNEWVIOw";
+    var key = "&key=" + process.env.GOOGLE_PLACES_API_KEY;
     var photoUrl = base + location + sensor + key;
     res.send(photoUrl);
     console.log("Photo Url sent to FE");
 });
 // Save a route to DB
-app.patch("/saveRoute/:id", function(request, response) {
+app.post("/saveRoute/:id", function(request, response) {
     console.log(request.body.uid);
     User.findOne({
         uid: request.body.uid,
@@ -142,7 +143,7 @@ app.patch("/saveRoute/:id", function(request, response) {
             console.log("Error: " + err)
         } else
         if (user) {
-            user.routes.push({
+            User.routes.push({
                 loc1: request.body.routes.loc1,
                 loc2: request.body.routes.loc2,
                 loc3: request.body.routes.loc3,

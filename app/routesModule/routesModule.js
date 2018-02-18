@@ -6,7 +6,8 @@
 
     routesModule.controller("RoutesController", function ($filter, $http, $scope, $rootScope, $location, checkLoggedIn) {
 
-        checkLoggedIn.userStatus();
+        let userStatus = checkLoggedIn.userStatus();
+        let userId = userStatus.userId;
 
         var userCity = function() {
             $http({

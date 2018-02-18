@@ -92,7 +92,11 @@
             this.userStatus = function () {
             let checkStatus = getLocalStorageItems();
             if (checkStatus.token) {
-                return true;
+                let loggedInItems = {
+                    "status": true,
+                    "userId": checkStatus.userId
+                }
+                return loggedInItems;
             }
             else {
                 return false;
