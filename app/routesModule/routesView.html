@@ -15,18 +15,36 @@
     </div>
     <div class="row" ng-show="loadingIcon" ng-hide="hideRoutes">
         <div class="col-md-5" class="choices_div">
-            <section>
-                <div layout="row">
-                    <md-input-container>
-                        <label>Distance</label>
-                        <md-select ng-model="selectedDistance" md-selected-text="getSelectedText()">
-                            <md-optgroup label="distance">
-                                <md-option ng-value="distance" ng-repeat="distance in radius">{{distance}} meters</md-option>
-                            </md-optgroup>
-                        </md-select>
-                    </md-input-container>
+            <div class="routes_button_container">
+                <md-button class="md-raised open-options-button" type="button" data-toggle="collapse" data-target="#collapseExample" aria-controls="collapseExample"> Route Options</md-button>
+                <md-button class="md-raised shuffle_choices_button" ng-click="shuffle()">New Route</md-button>
+                <md-button class="md-raised md-accent pick_route_button" ng-click="makeMap(closetToMe[0],closetToMe[1],closetToMe[2])">Show me this route</md-button>
+                <md-button class="md-raised md-accent save_route_button" ng-show="loggedIn" ng-click="saveRoute(closetToMe[0],closetToMe[1],closetToMe[2])">Save this route</md-button>
+            </div>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    <section>
+                        <div layout="row">
+                            <md-input-container>
+                                <label>Distance</label>
+                                <md-select ng-model="selectedItem" md-selected-text="getSelectedText()">
+                                    <md-optgroup label="distance">
+                                        <md-option ng-value="distance" ng-repeat="distance in radius">{{distance}} meters</md-option>
+                                    </md-optgroup>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                    </section>
+                    <section>
+                        <div class="demo-select-all-checkboxes" flex="100" ng-repeat="type in typesOfLocation">
+                            <md-checkbox ng-model="type">
+                                {{ type }}
+                            </md-checkbox>
+                        </div>
+                    </section>
                 </div>
-            </section>
+            </div>
+            <br>
             <section>
                 <md-card class="choice_card" ng-show="closetToMe != null">
                     <md-card-actions layout="row" layout-align="start center">
@@ -48,11 +66,6 @@
                             </md-card-title-text>
                         </md-card-title>
                 </md-card>
-                <div class="routes_button_container">
-                    <md-button class="md-raised shuffle_choices_button" ng-click="shuffle()">Shuffle Choices</md-button>
-                    <md-button class="md-raised md-primary pick_route_button" ng-click="makeMap(closetToMe[0],closetToMe[1],closetToMe[2])">Show me this route</md-button>
-                    <md-button class="md-raised md-accent save_route_button" ng-show="loggedIn" ng-click="saveRoute(closetToMe[0],closetToMe[1],closetToMe[2])">Save this route</md-button>
-                </div>
                 <div class="location_details_container">
                     <h3>{{detialsName}}</h3>
                     <h4>Marker: {{marker}}</h4>

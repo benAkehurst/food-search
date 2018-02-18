@@ -36,11 +36,7 @@
             }
         };
 
-        $scope.outingType = [
-            {'type': 'Resturant'},
-            {'type': 'Bar'},
-            {'type': 'Cafe'},
-        ]
+        $scope.typesOfLocation = ['Resturant', 'Bar', 'Cafe', ];
 
         $scope.loadingIcon = false;
         $scope.hideRoutes = false;
