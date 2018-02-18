@@ -13,21 +13,26 @@ var Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId;
 
 var User = new Schema({
-    name: { type: String },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-<<<<<<< HEAD
-    userImage: { type: String },
+    email: {
+        type: String,
+        unique: true
+    },
+    password: {
+        type: String
+    },
+    name: {
+        type: String
+    },
+    image: {
+        type: String
+    },
     savedRoutes: [{
         type: Schema.Types.ObjectId,
         ref: "RouteModel"
     }]
-=======
-    routes: [{ type: Schema.Types.ObjectId, ref: 'Friends' }],
-    userImage: { type: String },
-    { timestamps: true }
->>>>>>> origin/master
-});
+}, {
+        timestamps: true
+    });
 
 
 User.set('toJSON', {
