@@ -1,18 +1,19 @@
 // Dependencies
-var express = require("express");
-var bodyParser = require("body-parser");
-var mongoose = require("mongoose");
-var request = require('request');
-var jwt = require('jsonwebtoken');
-var bcrypt = require('bcryptjs');
-var mongooseUniqueValidator = require('mongoose-unique-validator');
+const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const request = require('request');
+const rp = require('request-promise');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const mongooseUniqueValidator = require('mongoose-unique-validator');
 
-var app = express();
-var router = express.Router();
+const app = express();
+const router = express.Router();
 
 // Schemas
-var User = require('./serverModels/user');
-var Route = require('./serverModels/rotue');
+const User = require('./serverModels/user');
+const Route = require('./serverModels/rotue');
 
 // Requirements
 require('dotenv').config()
@@ -22,8 +23,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(__dirname));
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PATCH, DELETE, OPTIONS');
     next();
 });
 
@@ -86,26 +88,24 @@ app.post('/login', function (req, res, next) {
     });
 });
 
-
-
-//Gets user details in profile
-app.get("/userInfo/:userId", function (req, res) {
-    User.findById({ _id: req.params.userId }).exec(function (err, user) {
-        if (err) {
-            console.log("Error: " + " " + err);
-        } else {
-            // console.log(user);
-            res.send(user);
-            console.log("Returned user to login");
-        }
-    })
+// Get the users location via IP address
+var userLocaionViaIP = '';
+var options = { uri: 'http://ipinfo.io', headers: { 'User-Agent': 'Request-Promise'}, json: true };
+rp(options)
+.then(function (userLocation) {
+    userLocaionViaIP = userLocation;
+})
+.catch(function (err) {
+    if(err){
+        userLocaionViaIP = 'error finding location';
+    }
 });
 
 // API call to google places to get locations list
 app.post('/routeOptions', function(req, res) {
     console.log('Requesting Places from Goolge API');
     var base = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
-    var longLat = req.body.location;
+    var longLat = userLocaionViaIP.loc;
     var radius = req.body.radius;
     var type = req.body.type;
     var key = "&key=" + process.env.GOOGLE_PLACES_API_KEY;
@@ -121,6 +121,7 @@ app.post('/routeOptions', function(req, res) {
         }
     })
 });
+
 // builds string for image for loaction info
 app.post('/getPlaceImage', function(req, res) {
     console.log("Requesting Image url");
@@ -152,7 +153,18 @@ app.post("/saveRoute/:id", function(request, response) {
         }
     })
 });
-
+//Gets user details in profile
+app.get("/userInfo/:userId", function (req, res) {
+    User.findById({ _id: req.params.userId }).exec(function (err, user) {
+        if (err) {
+            console.log("Error: " + " " + err);
+        } else {
+            // console.log(user);
+            res.send(user);
+            console.log("Returned user to login");
+        }
+    })
+});
 // Get all saved routes from DB for profile
 app.get("/getallRoutes/:id", function(request, response) {
     // console.log(request.params.id);
@@ -212,6 +224,7 @@ app.put("/editRoute/:_id", function(request, response) {
         }
     })
 });
+
 
 // allows the server to connect on port 3000 
 app.listen(3000, function() {

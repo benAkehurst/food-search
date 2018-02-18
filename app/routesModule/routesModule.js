@@ -9,7 +9,7 @@
         let userStatus = checkLoggedIn.userStatus();
         let userId = userStatus.userId;
 
-        var userCity = function() {
+        var userCity = function(){
             $http({
                 method: 'GET',
                 url: 'https://ipinfo.io'
@@ -26,16 +26,25 @@
         // var userLocation = { latitude: 32.079542, longitude: 34.779720}; // Tel Aviv // TURNED OFF FOR TESTING
         // var userLocation = { latitude: 51.513044, longitude: -0.124476}; // covent garden
 
+        $scope.radius = [1500, 2000, 2500];
+        $scope.selectedItem;
+        $scope.getSelectedText = function () {
+            if ($scope.selectedItem !== undefined) {
+                return "You have selected: " + $scope.selectedItem + 'm';
+            } else {
+                return "Please select an distance";
+            }
+        };
+
+        $scope.outingType = [
+            {'type': 'Resturant'},
+            {'type': 'Bar'},
+            {'type': 'Cafe'},
+        ]
+
         $scope.loadingIcon = false;
         $scope.hideRoutes = false;
         $scope.loggedIn = false;
-
-        var checkLoggedIn = function() {
-            var sessionInfo = getSessionData();
-            if (sessionInfo.loggedIn) {
-                $scope.loggedIn = true;
-            }
-        };
 
         var getUserLocation = function() {
             navigator.geolocation.getCurrentPosition(
@@ -231,14 +240,18 @@
 
         getUserLocation();
         userCity();
-        checkLoggedIn();
 
     });
 
     function initMap(pos) {
         var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 15,
-            center: new google.maps.LatLng(pos.latitude, pos.longitude)
+            center: new google.maps.LatLng(pos.latitude, pos.longitude),
+        });
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(pos.latitude, pos.longitude),
+            map: map,
+            title: 'You Are Here!'
         });
     }
 

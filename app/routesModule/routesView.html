@@ -7,6 +7,7 @@
             </div>
         </section>
     </div>
+
     <div layout="row" layout-sm="column" layout-align="space-around" ng-hide="loadingIcon" class="loading_icon">
         <section>
             <md-progress-circular md-mode="indeterminate"></md-progress-circular>
@@ -14,6 +15,18 @@
     </div>
     <div class="row" ng-show="loadingIcon" ng-hide="hideRoutes">
         <div class="col-md-5" class="choices_div">
+            <section>
+                <div layout="row">
+                    <md-input-container>
+                        <label>Distance</label>
+                        <md-select ng-model="selectedDistance" md-selected-text="getSelectedText()">
+                            <md-optgroup label="distance">
+                                <md-option ng-value="distance" ng-repeat="distance in radius">{{distance}} meters</md-option>
+                            </md-optgroup>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </section>
             <section>
                 <md-card class="choice_card" ng-show="closetToMe != null">
                     <md-card-actions layout="row" layout-align="start center">

@@ -6,7 +6,6 @@
         "ngMaterial",
         "loginModule",
         "routesModule",
-        "exploreModule",
         "profileModule",
         "navBarModule"
     ]);
@@ -44,11 +43,6 @@
                 .when("/routes/deleteRoute/:_id", {
                     controller: "RoutesController",
                     templateUrl: "app/routesModule/routesView.html"
-                })
-
-                .when("/explore", {
-                    controller: "ExploreController",
-                    templateUrl: "app/exploreModule/exploreView.html"
                 })
 
                 .when("/profile", {
