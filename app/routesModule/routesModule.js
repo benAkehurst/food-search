@@ -13,9 +13,8 @@
         $scope.hideRoutes = false;
         $scope.saveSuccess = false;
         $scope.saveFail = false;
-        // Defining Blank Variables
         var shuffleChoice = [];
-        var userLocation = {}; // comp loc TURNED OFF FOR TESTING
+        var userLocation = {};
         // var userLocation = { latitude: 32.079542, longitude: 34.779720}; // Tel Aviv // TURNED OFF FOR TESTING
         // var userLocation = { latitude: 51.513044, longitude: -0.124476}; // covent garden
         var to500Meters = [];
@@ -39,7 +38,7 @@
                     var pos = {
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude,
-                        timestamp: position.coords.timestamp,
+                        timestamp: position.timestamp,
                         accuracy: position.coords.accuracy
                     };
                     userLoc(pos);
@@ -62,7 +61,6 @@
             }
         };
 
-        
         // Route Options
         $scope.radius = [1500, 2000, 2500];
         $scope.selectedItem;
@@ -73,24 +71,25 @@
                 return "Please select an distance";
             }
         };
-        $scope.typesOfLocation = ['Resturant', 'Bar', 'Cafe', ];
+        $scope.typesOfLocation = ['resturant', 'bar', 'cafe', ];
 
 
         // TODO: Here are the functions where I need to enter user selected params
         var daySearch = function(locObj) {
-            // var longLat = locObj.latitude + "," + locObj.longitude; //comp loc TURNED OFF FOR TESTING
-            var longLat = "32.079542,34.779720"; //tel aviv
+            var longLat = locObj.latitude + "," + locObj.longitude; //comp loc TURNED OFF FOR TESTING
+            // var longLat = "32.079542,34.779720"; //tel aviv
             // var longLat = "51.510405,-0.131515"; //london TURNED OFF FOR TESTING
-            // var longLat = "52.362613, 4.886519"; //Amsterdam
+            // var longLat = "52.362613,4.886519"; //Amsterdam
             var radius = "&radius=1500";
-            var type = "&type=cafe&type=bar"; // Bar & Cafe
+            // var type = "&type=cafe&type=bar"; // Bar & Cafe
             // var type = "&type=resturant"; // Bar & Cafe
-            // var type = "&type=cafe"; // cafe
+            var type = "&type=cafe"; // cafe
             var searchParams = {
                 location: longLat,
                 radius: radius,
                 type: type
             };
+            console.log(searchParams);
             routeOptions(searchParams);
         };
 

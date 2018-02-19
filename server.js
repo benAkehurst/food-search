@@ -105,11 +105,13 @@ rp(options)
 
 // API call to google places to get locations list
 app.post('/routeOptions', function (req, res) {
+    var data = req.body;
     console.log('Requesting Places from Goolge API');
     var base = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
-    var longLat = userLocaionViaIP.loc;
-    var radius = req.body.radius;
-    var type = req.body.type;
+    var longLat = data.location;
+    // var longLat = userLocaionViaIP.loc;
+    var radius = data.radius;
+    var type = data.type;
     var key = "&key=" + process.env.GOOGLE_PLACES_API_KEY;
     var searchTerm = base + longLat + radius + type + key;
     // console.log(searchTerm);
