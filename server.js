@@ -40,10 +40,11 @@ mongoose.connect("mongodb://localhost:27017/MunchDB", function (err) {
 });
 // register user method
 app.post('/registerUser', function (req, res, next) {
+    var data = req.body;
     var user = new User({
-        name: req.body.name,
-        email: req.body.email,
-        password: bcrypt.hashSync(req.body.password, 10)
+        name: data.name,
+        email: data.email,
+        password: bcrypt.hashSync(data.password, 10)
     });
     user.save(function (err, result) {
         if (err) {
@@ -60,7 +61,8 @@ app.post('/registerUser', function (req, res, next) {
 });
 // Login user method
 app.post('/login', function (req, res, next) {
-    User.findOne({ email: req.body.email }, function (err, user) {
+    var data = req.body;
+    User.findOne({ email: data.email }, function (err, user) {
         if (err) {
             return res.status(500).json({
                 title: 'An error occurred',
@@ -73,7 +75,7 @@ app.post('/login', function (req, res, next) {
                 error: { message: 'Invalid login credentials' }
             });
         }
-        if (!bcrypt.compareSync(req.body.password, user.password)) {
+        if (!bcrypt.compareSync(data.password, user.password)) {
             return res.status(401).json({
                 title: 'Login failed',
                 error: { message: 'Invalid login credentials' }
@@ -222,6 +224,6 @@ app.put("/editRoute/:_id", function (request, response) {
 
 
 // allows the server to connect on port 3000 
-app.listen(3000, function () {
+app.listen(3000, '0.0.0.0', function () {
     console.log("Listening on http://localhost:3000");
 });
